@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>عون · وزارة الصحة</title>
+<meta name="theme-color" content="#174963">
+<link rel="icon" href="img/icon-192.png">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<style>
+:root{--deep:#0D2D3F;--navy:#174963;--ocean:#2C7495;--mist:#CAE9F5;--page:#F2F7FA;--card:#fff;--soft:#E3F1F8;--line:#D5E6EE;--ink:#0B2230;--muted:#4E7287;--primary:#256686;--ok:#1E7F4C;--warn:#C27A12;--bad:#C0392B;color-scheme:light dark}
+@media (prefers-color-scheme:dark){:root{--page:#0B1A22;--card:#132A36;--soft:#183746;--line:#24485A;--ink:#EAF6FC;--muted:#9CC3D5;--primary:#5AB0D0;--ok:#6FD39F;--warn:#F2B45C;--bad:#FF8A80}}
+*{box-sizing:border-box}html,body{margin:0;background:var(--page);color:var(--ink);font-family:-apple-system,"SF Arabic",system-ui,"Segoe UI","Noto Sans Arabic",Tahoma,sans-serif;line-height:1.5}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.shell{display:flex;min-height:100dvh}
+aside{width:240px;background:var(--navy);color:#fff;padding:22px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100dvh}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:18px}.logo img{width:40px;filter:brightness(0) invert(1)}.logo b{font-size:22px}.logo small{display:block;color:var(--mist);font-size:12px}
+nav button{display:flex;gap:10px;align-items:center;width:100%;padding:10px 12px;border-radius:12px;color:#DCEFF7;font-weight:600;text-align:start}
+nav button.on{background:rgba(255,255,255,.16);color:#fff}
+aside .foot{margin-top:auto;font-size:12px;color:var(--mist)}aside .foot a{color:#fff}
+main{flex:1;padding:24px clamp(14px,3vw,34px) 60px;min-width:0}
+h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 10px}.sub{color:var(--muted);margin:2px 0 18px}
+.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1.3fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g22{grid-template-columns:1fr 1fr}
+.card{background:var(--card);border-radius:18px;padding:16px 18px;box-shadow:0 2px 12px rgba(23,73,99,.07);min-width:0}
+.kpi small{color:var(--muted);font-size:13px}.kpi b{display:block;font-size:30px;font-variant-numeric:tabular-nums;line-height:1.2}.kpi span{font-size:13px;color:var(--muted)}
+.kpi .up{color:var(--ok);font-weight:600}.kpi .bad{color:var(--bad);font-weight:600}
+#ovmap,#dmap{height:420px;border-radius:14px;overflow:hidden;background:#e8eef1}
+.list{display:flex;flex-direction:column}
+.li{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid var(--line);cursor:pointer;text-align:start;width:100%}
+.li:last-child{border-bottom:0}.li .n{flex:1}.li small{display:block;color:var(--muted);font-size:12.5px}
+.pct{font-weight:700;font-variant-numeric:tabular-nums;min-width:48px;text-align:center;border-radius:8px;padding:2px 6px;font-size:14px}
+.bar{height:8px;background:var(--soft);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;border-radius:99px;background:var(--primary)}
+.hb{display:grid;grid-template-columns:150px 1fr 60px;gap:10px;align-items:center;margin:7px 0;font-size:14px}
+.hb .bar{height:14px}.hb b{font-variant-numeric:tabular-nums;text-align:end}
+.hb.me .bar i{background:var(--ok)}.hb.base .bar i{background:#9AA9B2}
+.agent{display:flex;flex-direction:column;gap:8px}
+.agent .hd{display:flex;align-items:center;gap:10px}.agent .ai{width:40px;height:40px;border-radius:12px;background:var(--soft);display:grid;place-items:center;color:var(--primary);font-weight:700}
+.agent .hd small{display:block;color:var(--muted);font-size:12.5px}
+.m{display:flex;justify-content:space-between;gap:8px;font-size:14px;border-top:1px dashed var(--line);padding-top:6px}.m b{font-variant-numeric:tabular-nums}
+.state{font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:#E4F4E8;color:#1E7F4C;margin-inline-start:auto}
+.funnel{display:flex;flex-direction:column;gap:6px}
+.fs{display:flex;align-items:center;gap:10px;font-size:14px}.fs .b{height:30px;border-radius:8px;background:linear-gradient(90deg,var(--ocean),var(--navy));color:#fff;display:flex;align-items:center;padding:0 10px;font-weight:700;font-variant-numeric:tabular-nums}
+.fs span{color:var(--muted)}
+.spark{width:100%;height:90px}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:99px;background:var(--soft);color:var(--primary);font-weight:600}
+.btn{background:var(--primary);color:#fff;border-radius:12px;padding:9px 16px;font-weight:600}.btn.t{background:var(--soft);color:var(--primary)}
+.btn.ok{background:var(--ok)}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px}
+.detail{display:flex;flex-direction:column;gap:8px}
+.mobilenav{display:none}
+@media (max-width:900px){aside{display:none}.mobilenav{display:flex;gap:6px;overflow-x:auto;position:sticky;top:0;background:var(--page);padding:10px 0;z-index:900}
+.mobilenav button{flex:0 0 auto;background:var(--card);border-radius:99px;padding:7px 14px;font-weight:600;font-size:14px}.mobilenav button.on{background:var(--primary);color:#fff}
+.g4{grid-template-columns:1fr 1fr}.g2,.g3,.g22{grid-template-columns:1fr}.hb{grid-template-columns:110px 1fr 52px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside>
+    <div class="logo"><img src="img/aoun-mark.png" alt=""><div><b>عون</b><small>منصة وزارة الصحة</small></div></div>
+    <nav id="nav"></nav>
+    <div class="foot">بيانات محاكاة لأغراض العرض، مبنية على إحصاءات سعودية منشورة 2020+.<br><a href="./">تطبيق السكان ←</a></div>
+  </aside>
+  <main><div class="mobilenav" id="mnav"></div><div id="view"></div></main>
+</div>
+<script src="vendor/leaflet.js"></script>
+<script src="data.js"></script>
+<script>
+const D = window.AOUN_DATA, R = D.system ? null : null;
+const C = D.configs, F = D.full, MI = D.ministry, U = D.understanding;
+const SEC = [["overview", "نظرة عامة"], ["agents", "أداء الوكلاء"], ["districts", "أحياء الرياض"], ["interventions", "التدخلات"]];
+let cur = location.hash.slice(1) || "agents", map = null, selected = null;
+const approved = JSON.parse(localStorage.getItem("aoun.approved") || "{}");
+const fmt = (n, d = 0) => Number(n).toLocaleString("ar-SA-u-nu-latn", { maximumFractionDigits: d, minimumFractionDigits: d });
+const pct = (x) => Math.round(x * 100) + "%";
+const color = (c) => c >= .6 ? "#1E7F4C" : c >= .5 ? "#5BA86B" : c >= .45 ? "#C9A227" : c >= .4 ? "#E08A2E" : "#C0392B";
+const pill = (c) => `<span class="pct" style="background:${color(c)}22;color:${color(c)}">${pct(c)}</span>`;
+
+function nav() {
+  const h = SEC.map(([k, t]) => `<button class="${cur === k ? "on" : ""}" data-s="${k}">${t}</button>`).join("");
+  document.getElementById("nav").innerHTML = h; document.getElementById("mnav").innerHTML = h;
+}
+document.addEventListener("click", (e) => {
+  const s = e.target.closest("[data-s]"); if (s) { cur = s.dataset.s; location.hash = cur; draw(); return; }
+  const d = e.target.closest("[data-d]"); if (d) { selected = d.dataset.d; draw(); return; }
+  const a = e.target.closest("[data-approve]"); if (a) { approved[a.dataset.approve] = a.dataset.v; localStorage.setItem("aoun.approved", JSON.stringify(approved)); draw(); }
+});
+
+function kpi(label, val, sub) { return `<div class="card kpi"><small>${label}</small><b>${val}</b><span>${sub || ""}</span></div>`; }
+
+/* ---------- agent performance ---------- */
+function vAgents() {
+  const full = C.aoun_full, sms = C.sms_baseline, x = full.completed / sms.completed;
+  const per1000 = full.completed, booked = per1000 / (1 - full.noshow), answered = booked / full.booking, contacted = per1000 * full.contacts;
+  const ab = [["aoun_full", "عون كامل (4 وكلاء)", "me"], ["no_followup", "بدون وكيل المتابعة"], ["no_equity_guard", "بدون حصة العدالة"], ["no_barrier_understanding", "بدون فهم السبب"], ["random_planner", "بدون وكيل التخطيط"], ["sms_baseline", "الوضع الحالي: رسالة SMS", "base"]];
+  const maxC = Math.max(...ab.map(([k]) => C[k].completed));
+  const langs = { ar: "العربية", ur: "الأوردو", hi: "الهندية", bn: "البنغالية", tl: "الفلبينية", id: "الإندونيسية", en: "الإنجليزية" };
+  // 14-day call trend (simulated daily capacity 120, answered and booked from the evaluation rates)
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const days = Array.from({ length: 14 }, (_, i) => { const calls = Math.round(110 + rnd() * 20 - (i % 7 === 5 ? 60 : 0)); const ans = Math.round(calls * (0.55 + rnd() * 0.08)); return { calls, ans, booked: Math.round(ans * (full.booking - 0.03 + rnd() * 0.06)) }; });
+  const W = 600, H = 90, mx = Math.max(...days.map((d) => d.calls));
+  const line = (k) => days.map((d, i) => `${(i / 13) * W},${H - (d[k] / mx) * (H - 8)}`).join(" ");
+  return `<h1>أداء الوكلاء</h1><p class="sub">كيف يشتغل وكلاء عون الأربعة معًا · محاكاة 35 يومًا في 80 حيًّا بالرياض (${fmt(D.setup.residents_per_run)} ساكن × 3 تشغيلات)</p>
+  <div class="grid g4">
+    ${kpi("فحوصات مكتملة لكل 1000 ساكن", fmt(full.completed, 1), `<span class="up">${fmt(x, 1)}×</span> مقابل ${fmt(sms.completed, 1)} برسائل SMS`)}
+    ${kpi("نسبة الحجز من المكالمات المجابة", pct(full.booking), `مقابل ${pct(sms.booking)} حاليًا`)}
+    ${kpi("نسبة الغياب عن الموعد", pct(full.noshow), `<span class="up">↓</span> من ${pct(sms.noshow)} (المعدل السعودي 23%)`)}
+    ${kpi("مخالفات قواعد الأمان", fmt(F.violations), `طوارئ حُوّلت لـ 997: ${fmt(F.emerg)} من ${fmt(F.emergSaid)}`)}
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h2>رحلة كل 1000 ساكن</h2><div class="funnel">
+      ${[["تواصل", contacted], ["ردّوا", answered], ["حجزوا", booked], ["أكملوا الفحص وراجعه الطبيب", per1000]].map(([t, v]) => `<div class="fs"><div class="b" style="width:${Math.max(18, (v / contacted) * 100)}%">${fmt(v)}</div><span>${t}</span></div>`).join("")}
+    </div><p class="note">سكري غير مشخّص اكتُشف: <b>${fmt(full.undiag)}</b> شخص مقابل ${fmt(sms.undiag)} بالطريقة الحالية.</p></div>
+    <div class="card"><h2>مكالمات آخر 14 يوم</h2>
+      <svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><polyline points="${line("calls")}" fill="none" stroke="#9AA9B2" stroke-width="2"/><polyline points="${line("ans")}" fill="none" stroke="#2C7495" stroke-width="2.5"/><polyline points="${line("booked")}" fill="none" stroke="#1E7F4C" stroke-width="3"/></svg>
+      <div style="display:flex;gap:14px;font-size:13px;color:var(--muted)"><span>— مكالمات</span><span style="color:#2C7495">— ردّوا</span><span style="color:#1E7F4C">— حجزوا</span></div>
+      <p class="note">اليوم: ${fmt(days[13].calls)} مكالمة · ${fmt(days[13].ans)} ردّوا · ${fmt(days[13].booked)} حجزوا. الجمعة أقل لأن الوكيل ما يتصل وقت الصلاة.</p></div>
+  </div>
+  <h2 style="margin-top:22px">الوكلاء الأربعة</h2>
+  <div class="grid g4">
+    ${agentCard("خ", "وكيل التخطيط", "يقرر مين نتصل عليه اليوم ومتى", [["سعة الاتصال اليومية", fmt(D.setup.daily_capacity) + " مكالمة"], ["دقة ترتيب الأولوية (AUC)", fmt(D.models.priorityAUC, 2)], ["فجوة الإكمال سعودي/غير سعودي", fmt(full.gap, 1) + " نقطة"], ["بدون حصة العدالة", fmt(C.no_equity_guard.gap, 1) + " نقطة"]])}
+    ${agentCard("ر", "الوكيل الصوتي · رفيدة/رفيد", "يتصل ويفهم السبب ويحجز الموعد الجاهز", [["دقة معرفة اللغة", pct(U.lang)], ["دقة فهم السبب (عبارات جديدة)", pct(U.barrier)], ["الطوارئ المكتشفة", `${U.emergencyCases}/${U.emergencyCases}`], ["نسبة الحجز", pct(full.booking)]])}
+    ${agentCard("م", "وكيل المتابعة", "يذكّر ويعيد الحجز لين يراجع الطبيب النتيجة", [["مواعيد أُعيد حجزها", fmt(F.rebooked)], ["الغياب", pct(full.noshow)], ["حُوّلت لموظف صحي", fmt(F.escalated, 1)], ["احتمال الحضور (AUC)", fmt(D.models.attendAUC, 2)]])}
+    ${agentCard("و", "وكيل الوزارة", "يقرأ المكالمات ويقترح تدخلًا لكل حي", [["تدخلات مقترحة", fmt(MI.proposals)], ["اعتمدها موظف", fmt(MI.approved, 1)], ["تدخل بدون اعتماد بشري", "0"], ["دقة معرفة عائق الحي", pct(MI.barrierAcc)]])}
+  </div>
+  <div class="grid g22" style="margin-top:14px">
+    <div class="card"><h2>كل وكيل له دور: فحوصات مكتملة لكل 1000</h2>
+      ${ab.map(([k, t, cls]) => `<div class="hb ${cls || ""}"><span>${t}</span><div class="bar"><i style="width:${(C[k].completed / maxC) * 100}%"></i></div><b>${fmt(C[k].completed, 0)}</b></div>`).join("")}
+      <p class="note">نشيل وكيل واحد في كل مرة ونقيس: كل وكيل نشيله تنقص النتيجة.</p></div>
+    <div class="card"><h2>فهم اللغة حسب لغة الساكن</h2>
+      ${Object.entries(U.byLang).map(([k, v]) => `<div class="hb"><span>${langs[k] || k}</span><div class="bar"><i style="width:${v * 100}%"></i></div><b>${pct(v)}</b></div>`).join("")}
+      <p class="note">على عبارات جديدة ما ضُبط عليها النظام. أثر التدخلات على الحجز: +${fmt(MI.did, 1)} نقطة (فاصل الثقة ${fmt(MI.didCI[0], 1)} إلى ${fmt(MI.didCI[1], 1)}، يحتاج تجربة أطول).</p></div>
+  </div>
+  <p class="note">المصدر: reports/agent_system_evaluation.json في مستودع المشروع. محاكاة بافتراضات معلنة، وليست تجربة سريرية.</p>`;
+}
+function agentCard(i, t, d, ms) {
+  return `<div class="card agent"><div class="hd"><div class="ai">${i}</div><div><b>${t}</b><small>${d}</small></div><span class="state">يعمل</span></div>${ms.map(([a, b]) => `<div class="m"><span>${a}</span><b>${b}</b></div>`).join("")}</div>`;
+}
+
+/* ---------- overview ---------- */
+function vOverview() {
+  const el = D.regions.reduce((a, r) => a + r.eligible, 0), sc = D.regions.reduce((a, r) => a + r.screened, 0);
+  const regs = [...D.regions].sort((a, b) => a.completion - b.completion);
+  return `<h1>نظرة عامة على المملكة</h1><p class="sub">نسبة إكمال الفحص المبكر لكل منطقة، وأكثر عائق يمنع الناس</p>
+  <div class="grid g4">${kpi("نسبة الإكمال", pct(sc / el), "هدف 2030: 80%")}${kpi("مستحقون للفحص", fmt(el / 1e6, 2) + " مليون", "")}${kpi("فحصوا", fmt(sc / 1e6, 2) + " مليون", "")}${kpi("الأحياء", fmt(D.regions.reduce((a, r) => a + r.districts, 0)), "13 منطقة")}</div>
+  <div class="grid g2" style="margin-top:14px"><div class="card"><div id="ovmap"></div></div>
+  <div class="card"><h2>المناطق الأقل إكمالًا</h2><div class="list">${regs.map((r) => `<div class="li">${pill(r.completion)}<div class="n"><b>${r.ar}</b><small>العائق الأبرز: ${r.barrier} · ${r.gap}</small></div></div>`).join("")}</div></div></div>`;
+}
+
+/* ---------- districts ---------- */
+function vDistricts() {
+  const ds = [...D.riyadh].sort((a, b) => a.completion - b.completion);
+  const s = D.riyadh.find((d) => d.id === selected) || ds[0]; selected = s.id;
+  return `<h1>أحياء الرياض</h1><p class="sub">${D.riyadh.length} حيًّا · اضغط على أي حي لترى السبب والتدخل المقترح</p>
+  <div class="grid g2"><div class="card"><div id="dmap"></div></div>
+  <div class="grid" style="align-content:start">
+    <div class="card detail"><small class="tag">الحي المختار</small><h2 style="margin:4px 0 0">${s.ar}</h2>
+      <div class="bar"><i style="width:${s.completion * 100}%;background:${color(s.completion)}"></i></div>
+      <div>${pct(s.completion)} أكملوا الفحص · ${fmt(s.eligible)} مستحق</div>
+      <div><b>أكثر سبب:</b> ${s.barrier}</div><div><b>أكثر نقص صحي:</b> ${s.gap}</div>
+      <div><b>تدخّل يقترحه وكيل الوزارة:</b> ${s.intervention}</div>
+      ${approved[s.id] ? `<span class="tag">${approved[s.id] === "y" ? "✓ اعتُمد" : "رُفض"}</span>` : `<div style="display:flex;gap:8px"><button class="btn ok" data-approve="${s.id}" data-v="y">اعتماد</button><button class="btn t" data-approve="${s.id}" data-v="n">رفض</button></div>`}
+    </div>
+    <div class="card"><h2>الأقل إكمالًا</h2><div class="list">${ds.slice(0, 8).map((d) => `<button class="li" data-d="${d.id}">${pill(d.completion)}<div class="n"><b>${d.ar}</b><small>${d.barrier}</small></div></button>`).join("")}</div></div>
+  </div></div>`;
+}
+
+/* ---------- interventions ---------- */
+function vInterventions() {
+  const ds = [...D.riyadh].sort((a, b) => a.completion - b.completion).slice(0, 14);
+  return `<h1>التدخلات المقترحة</h1><p class="sub">وكيل الوزارة يقترح، والموظف يعتمد. ولا يُنفّذ شيء بدون اعتماد.</p>
+  <div class="card"><div class="list">${ds.map((d) => `<div class="li">${pill(d.completion)}<div class="n"><b>${d.intervention}</b><small>${d.ar} · السبب: ${d.barrier} · ${fmt(d.eligible - d.screened)} لم يفحصوا</small></div>
+    ${approved[d.id] ? `<span class="tag">${approved[d.id] === "y" ? "✓ اعتُمد" : "رُفض"}</span>` : `<button class="btn ok" data-approve="${d.id}" data-v="y">اعتماد</button><button class="btn t" data-approve="${d.id}" data-v="n">رفض</button>`}</div>`).join("")}</div></div>`;
+}
+
+function tiles(m) { L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", { maxZoom: 18, attribution: "© OpenStreetMap · © CARTO" }).addTo(m); }
+function draw() {
+  nav(); if (map) { map.remove(); map = null; }
+  const v = { overview: vOverview, agents: vAgents, districts: vDistricts, interventions: vInterventions }[cur]();
+  document.getElementById("view").innerHTML = v;
+  if (!window.L) return;
+  if (cur === "overview") {
+    map = L.map("ovmap", { zoomControl: false }).setView([24, 45], 5); tiles(map);
+    D.regions.forEach((r) => L.circleMarker([r.lat, r.lon], { radius: 8 + Math.sqrt(r.eligible) / 120, color: "#fff", weight: 2, fillColor: color(r.completion), fillOpacity: .85 }).bindTooltip(`${r.ar}: ${pct(r.completion)}`).addTo(map));
+  }
+  if (cur === "districts") {
+    map = L.map("dmap", { zoomControl: false }).setView([24.72, 46.72], 10.5); tiles(map);
+    D.riyadh.forEach((d) => L.circleMarker([d.lat, d.lon], { radius: d.id === selected ? 11 : 6, color: d.id === selected ? "#0D2D3F" : "#fff", weight: d.id === selected ? 3 : 1, fillColor: color(d.completion), fillOpacity: .9 })
+      .bindTooltip(`${d.ar}: ${pct(d.completion)}`).on("click", () => { selected = d.id; draw(); }).addTo(map));
+  }
+}
+draw();
+</script>
+</body>
+</html>
