@@ -1,26 +1,23 @@
 # عون · Aoun
 
-Installable iPhone/Android web app for the Aoun early-screening agent (agentX hackathon, Ministry of Health track).
+The Aoun resident app and the Ministry platform (agentX hackathon, Ministry of Health track), built from the original Aoun designs.
 
-**Live:** https://lam20010.github.io/aoun-app/ · **Ministry dashboard:** https://lam20010.github.io/aoun-app/ministry.html
+- **App:** https://lam20010.github.io/aoun-app/ (open in Safari → Share → Add to Home Screen)
+- **Ministry platform:** https://lam20010.github.io/aoun-app/ministry.html
 
-## The resident app
-1. **Welcome:** asks to use the location (to know the neighborhood and suggest the nearest center, mobile clinic and park) and the microphone.
-2. **The call:** Rufaida (رفيدة) or Rafeed (رفيد), the live ElevenLabs agent, calls and announces a **ready appointment**. The person confirms, or declines; the agent asks why and rebooks to remove the reason (evening slot, female doctor, interpreter, home visit, mobile clinic).
-3. **No transport:** the agent offers **Uber** (the ride is pre-filled from home to the center; the person confirms it in the Uber app) or the **Riyadh Metro** (full plan: walk → line and stops → walk, with the ticket in the Darb app and the plan in Google Maps).
-4. **The app:** Home, دفتري, the map, the family tree. The agent stays available in the dock on every screen: "افتح دفتري", "وين أقرب حديقة؟", "كبّر الخط".
-5. **Map:** the person's area and its screening rate, the nearest health center, the nearest mobile check-up truck, parks and metro stations, with directions.
-6. **Family tree:** relations only, no names, saved on the phone. If diabetes or high blood pressure runs in the family, the app and the agent suggest a daily walk in the nearest park and show the way.
+## The app
+1. **The call:** Rufaida (رفيدة) or Rafeed (رفيد), the live ElevenLabs agent, calls and announces a ready appointment. Confirm, or say it doesn't suit you; the agent asks why and rebooks to remove the reason.
+2. **No transport:** the agent asks for your location (with permission) and offers **Uber** (ride pre-filled from home to the center, confirmed in Uber) or the **Riyadh Metro** (full plan + ticket in the Darb app).
+3. **Your neighborhood:** after booking, the app asks for your location to show your area, its screening rate and the nearest park, mobile clinic or health center, with directions in Maps. If diabetes or high blood pressure runs in the family, it suggests a daily walk in the nearest park.
+4. **Always with you:** the Rufaida bar at the bottom is the live agent: «افتح دفتري», «وريني شجرة عائلتي», «وين أقرب حديقة؟», «كبّري الخط».
+5. **Privacy:** location stays on the phone, the family tree has no names, the person's own genetic results are never shown or stored, and «احذف بياناتي من الجوال» clears everything.
 
-Install on iPhone: open the link in Safari → Share → Add to Home Screen.
+Settings (الوصول): turn «الوكيل الحي» off to run the same flow offline with the phone's voice.
 
-## Ministry dashboard
-Overview of the regions, Riyadh districts with the main barrier and a suggested intervention (human approval), and **agent performance**: completed screenings per 1,000 vs SMS, funnel, the four agents' metrics, ablations, language understanding.
+## The Ministry platform
+The original platform (map, regions, neighborhoods, statistics, interventions with human approval, reports, settings) plus **أداء الوكلاء**: completed screenings per 1,000 vs SMS, the journey of 1,000 residents, the four agents' metrics, what each agent adds, and language understanding.
 
-## Data
-- Agent evaluation and district data: simulation on synthetic residents anchored on 2020+ Saudi statistics (see the main project repo).
-- Riyadh Metro stations and lines: RCRC open data via github.com/engmohammeda/RiyadhMetro- (MIT).
-- Parks and health centers near the person: OpenStreetMap (live, Overpass API). Map tiles © OpenStreetMap, © CARTO.
-- Mobile check-up truck locations are demo placements near the person.
+## How it is built
+`src/designs/*.dc.html` are the Aoun design boards (restyled: palette #5AA7A7 #96D7C6 #BAC94A #E2D36B #6C8CBF, iOS buttons). `src/dcrt.js` is a small runtime that renders them; `src/live.js` adds the live agent, location, transport and maps; `src/ministry_live.js` adds the agent dashboard. Build: `python3 build_site3.py`.
 
-Source: `src/` (bundled into `app.js` with esbuild, `@elevenlabs/client` 1.34.0, Leaflet 1.9.4).
+Data: agent evaluation from the project's simulation (synthetic residents anchored on 2020+ Saudi statistics); Riyadh Metro stations and lines from RCRC open data (via github.com/engmohammeda/RiyadhMetro-, MIT); nearby parks and health centers from OpenStreetMap; Saudi region borders from svg-maps (CC BY 4.0). Mobile clinic locations are demo placements.

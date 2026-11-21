@@ -1,0 +1,1122 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>منصة عون — وزارة الصحة</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Reem+Kufi:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF5F4}
+a{color:#2F7F80}a:hover{color:#1F5D5E}
+button{font-family:inherit}
+@keyframes aounIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes aounFeed{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes aounPulse{0%{box-shadow:0 0 0 0 rgba(47,163,127,.55)}100%{box-shadow:0 0 0 10px rgba(47,163,127,0)}}
+.aoun-in{animation:aounIn .5s cubic-bezier(.2,.7,.2,1)}
+.aoun-feed{animation:aounFeed .45s ease-out}
+.aoun-live{animation:aounPulse 1.6s ease-out infinite}
+.aoun-region:hover{filter:brightness(.93)}
+.aoun-hex:hover{filter:brightness(.93)}
+@media (prefers-reduced-motion: reduce){.aoun-in,.aoun-feed,.aoun-live{animation:none}}
+</style>
+
+<style>
+  /* iOS feel: system font, press feedback, no web focus glow, smooth scroll */
+  html, body { -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+  button, a.ios-btn { font-family: inherit !important; -webkit-appearance: none; touch-action: manipulation; transition: opacity .12s ease, transform .12s ease; }
+  button:active, a.ios-btn:active { opacity: .55; }
+  button:focus-visible, a.ios-btn:focus-visible { outline: 3px solid #96D7C6; outline-offset: 2px; }
+  * { scrollbar-width: none; } *::-webkit-scrollbar { display: none; }
+</style>
+</helmet>
+<div dir="rtl" style="min-height: 100vh; box-sizing: border-box; display: flex; flex-wrap: wrap; font-family: -apple-system, BlinkMacSystemFont, 'SF Arabic', 'SF Pro Text', 'IBM Plex Sans Arabic', system-ui, sans-serif; color: #173F42; background: linear-gradient(160deg, #F4F9F8 0%, #E6F0EE 100%); font-size: 15px">
+
+  <aside style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: linear-gradient(180deg, #2F7F80 0%, #1F5D5E 100%); color: #FFFFFF; padding: 26px 16px; display: flex; flex-direction: column; gap: 26px">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 0 6px">
+      <div style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px">
+        <div dir="ltr" style="display: flex; align-items: center; gap: 2px; background: #FFFFFF; border-radius: 16px; padding: 6px 16px 6px 8px">
+          <img src="/_blob/3fed7070c947086694a6b21da1c3bdc2" alt="" style="width: 44px; height: 44px">
+          <span style="font-family: 'Reem Kufi', sans-serif; font-weight: 700; font-size: 30px; line-height: 1; color: #2F7F80">عون</span>
+        </div>
+        <span style="font-size: 12px; color: #D5EFE7">منصة وزارة الصحة</span>
+      </div>
+    </div>
+    <nav aria-label="أقسام المنصة" style="display: flex; flex-direction: column; gap: 6px">
+      <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
+        <button onClick="{{tb.pick}}" aria-current="{{tb.current}}" style="text-align: right; min-height: 50px; border-radius: 14px; border: none; padding: 0 14px; background: {{tb.bg}}; color: #FFFFFF; font-size: 15px; font-weight: {{tb.weight}}; display: flex; align-items: center; gap: 12px; cursor: pointer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{tb.d}}"></path></svg>
+          {{tb.label}}
+        </button>
+      </sc-for>
+    </nav>
+    <div style="margin-top: auto; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; align-items: center; gap: 8px"><span class="aoun-live" style="width: 10px; height: 10px; border-radius: 5px; background: #6FE0B5"></span><b style="font-size: 13px">رفيدة تعمل الآن</b></div>
+      <span style="font-size: 12px; line-height: 1.7; color: #D5EFE7">{{liveCount}} محادثة جارية مع المستفيدين في كل المناطق</span>
+    </div>
+    <div style="font-size: 11px; line-height: 1.7; color: #C4E3DC; padding: 0 6px">كل الأرقام مجمّعة ومجهّلة، ولا تُعرض أي مجموعة أقل من 50 شخصًا.</div>
+  </aside>
+
+  <main style="flex: 999 1 600px; min-width: 0; box-sizing: border-box; padding: 26px clamp(14px, 2.6vw, 34px); display: flex; flex-direction: column; gap: 18px">
+
+    <header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; background: rgba(255,255,255,.75); border: 1px solid #FFFFFF; border-radius: 22px; padding: 16px 20px; box-shadow: 0 6px 24px rgba(11,110,79,.06)">
+      <div style="display: flex; align-items: center; gap: 14px">
+        <div style="width: 52px; height: 52px; border-radius: 16px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"></path><path d="M9 3v15M15 6v15"></path></svg>
+        </div>
+        <div>
+          <h1 style="margin: 0; font-size: 24px">منصة عون · الكشف المبكر والوقاية</h1>
+          <nav aria-label="المسار" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: 13px; margin-top: 2px">
+            <sc-for list="{{crumbs}}" as="cr" hint-placeholder-count="2">
+              <span style="display: flex; align-items: center; gap: 4px">
+                <button onClick="{{cr.go}}" style="border: none; background: transparent; padding: 4px 2px; min-height: 30px; color: {{cr.color}}; font-weight: {{cr.weight}}; font-size: 13px; cursor: pointer">{{cr.label}}</button>
+                <sc-if value="{{cr.sep}}" hint-placeholder-val="{{ true }}"><span style="color: #8BA096">‹</span></sc-if>
+              </span>
+            </sc-for>
+          </nav>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+        <div role="group" aria-label="الفترة" style="display: flex; background: #E6F4F1; border-radius: 12px; padding: 4px">
+          <sc-for list="{{ranges}}" as="rg" hint-placeholder-count="3">
+            <button onClick="{{rg.pick}}" aria-pressed="{{rg.selected}}" style="min-height: 36px; padding: 0 12px; border: none; border-radius: 9px; background: {{rg.bg}}; color: {{rg.color}}; font-size: 13px; font-weight: 600; cursor: pointer">{{rg.label}}</button>
+          </sc-for>
+        </div>
+        <span style="font-size: 12px; font-weight: 600; background: #FBF5D6; color: #6B5A08; padding: 8px 12px; border-radius: 12px">بيانات تجريبية للعرض</span>
+      </div>
+    </header>
+
+    <sc-if value="{{notSettings}}" hint-placeholder-val="{{ true }}">
+    <!-- KPIs -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px">
+      <sc-for list="{{kpis}}" as="k" hint-placeholder-count="6">
+        <div style="background: rgba(255,255,255,.85); border: 1px solid #FFFFFF; border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 6px 20px rgba(11,110,79,.05)">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+            <span style="font-size: 13px; color: #4C6466; font-weight: 500">{{k.label}}</span>
+            <span style="width: 34px; height: 34px; border-radius: 11px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{k.d}}"></path></svg></span>
+          </div>
+          <span style="font-size: 30px; font-weight: 700; color: #173F42; line-height: 1.1">{{k.value}}</span>
+          <span style="font-size: 12px; font-weight: 600; color: {{k.subColor}}">{{k.sub}}</span>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <!-- ================= الرئيسية ================= -->
+    <sc-if value="{{is.home}}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; flex-wrap: wrap; gap: 18px; align-items: stretch">
+
+          <section style="flex: 1.7 1 520px; min-width: 0; background: rgba(255,255,255,.88); border: 1px solid #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 8px 28px rgba(11,110,79,.07)">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap">
+              <div>
+                <h2 style="margin: 0; font-size: 19px">{{mapTitle}}</h2>
+                <span style="font-size: 12px; color: #4C6466">{{mapHint}}</span>
+              </div>
+              <sc-if value="{{canBack}}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{back}}" style="min-height: 40px; padding: 0 14px; border-radius: 12px; border: 1px solid #CFE2DF; background: #FFFFFF; color: #2F7F80; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg>
+                  تصغير
+                </button>
+              </sc-if>
+            </div>
+
+            <div style="position: relative; border-radius: 18px; background: radial-gradient(ellipse at 50% 40%, #F7FBFA 0%, #E3F0ED 100%); overflow: hidden">
+              <sc-if value="{{showKingdomMap}}" hint-placeholder-val="{{ true }}">
+                <div style="position: relative; width: 100%; aspect-ratio: 730 / 600">
+                  <svg viewBox="0 0 730 600" role="img" aria-label="خريطة مناطق المملكة ملونة حسب نسبة إكمال الفحوصات" style="position: absolute; inset: 0; width: 100%; height: 100%">
+                    <g style="transform: {{mapT}}; transform-origin: 0 0; transition: transform .8s cubic-bezier(.2,.7,.2,1)">
+                      <sc-for list="{{regionShapes}}" as="r" hint-placeholder-count="13">
+                        <path class="aoun-region" d="{{r.d}}" fill="{{r.fill}}" stroke="#FFFFFF" stroke-width="1.6" vector-effect="non-scaling-stroke" opacity="{{r.op}}" onClick="{{r.pick}}" onMouseEnter="{{r.enter}}" onMouseLeave="{{leave}}" style="cursor: pointer; transition: opacity .5s, fill .4s"></path>
+                      </sc-for>
+                    </g>
+                  </svg>
+                  <sc-for list="{{regionLabels}}" as="l" hint-placeholder-count="13">
+                    <span style="position: absolute; left: {{l.left}}; top: {{l.top}}; transform: translate(-50%, -50%); pointer-events: none; font-size: {{l.fs}}; font-weight: 700; color: #173F42; background: rgba(255,255,255,.85); padding: 2px 9px; border-radius: 10px; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,.08)">{{l.name}}</span>
+                  </sc-for>
+                  <sc-for list="{{cityPins}}" as="c" hint-placeholder-count="4">
+                    <button class="aoun-in" onClick="{{c.pick}}" onMouseEnter="{{c.enter}}" onMouseLeave="{{leave}}" style="position: absolute; left: {{c.left}}; top: {{c.top}}; transform: {{c.tf}}; display: flex; flex-direction: {{c.dir}}; align-items: center; gap: 3px; border: none; background: transparent; padding: 0; cursor: pointer; z-index: 2">
+                      <span style="background: #FFFFFF; border-radius: 12px; padding: 5px 10px; font-size: 13px; font-weight: 700; color: #173F42; box-shadow: 0 3px 10px rgba(0,0,0,.15); display: flex; align-items: center; gap: 6px; white-space: nowrap">{{c.name}}<span style="background: {{c.fill}}; color: {{c.ink}}; border-radius: 8px; padding: 0 7px">{{c.pct}}%</span></span>
+                      <span style="width: 16px; height: 16px; border-radius: 8px; background: #2F7F80; border: 3px solid #FFFFFF; box-shadow: 0 2px 6px rgba(0,0,0,.3); box-sizing: border-box"></span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{geoLoading}}" hint-placeholder-val="{{ false }}">
+                <div style="aspect-ratio: 730 / 600; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #4C6466">جاري تحميل الخريطة…</div>
+              </sc-if>
+
+              <sc-if value="{{showCityMap}}" hint-placeholder-val="{{ false }}">
+                <div class="aoun-in" style="position: relative; width: 100%; aspect-ratio: 800 / 560; background: #F1EEE8; overflow: hidden">
+                  <svg viewBox="0 0 800 560" role="img" aria-label="خريطة أحياء المدينة" style="position: absolute; inset: 0; width: 100%; height: 100%">
+                    <defs>
+                      <pattern id="aounStreets" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(14)"><path d="M0 0H20M0 0V20" stroke="#FFFFFF" stroke-width="1.3" fill="none"></path></pattern>
+                    </defs>
+                    <g style="transform: {{cityT}}; transform-origin: 0 0; transition: transform .8s cubic-bezier(.2,.7,.2,1)">
+                      <rect x="-600" y="-600" width="2000" height="1760" fill="#F1EEE8"></rect>
+                      <sc-for list="{{cells}}" as="cl" hint-placeholder-count="12">
+                        <path d="{{cl.d}}" fill="{{cl.fill}}" fill-opacity="{{cl.op}}" stroke="none" onClick="{{cl.pick}}" onMouseEnter="{{cl.enter}}" onMouseLeave="{{leave}}" style="cursor: pointer; transition: fill-opacity .4s"></path>
+                      </sc-for>
+                      <rect x="-600" y="-600" width="2000" height="1760" fill="url(#aounStreets)" style="pointer-events: none"></rect>
+                      <sc-for list="{{parks}}" as="pk" hint-placeholder-count="3">
+                        <ellipse cx="{{pk.cx}}" cy="{{pk.cy}}" rx="{{pk.rx}}" ry="{{pk.ry}}" fill="#C6E6BD" style="pointer-events: none"></ellipse>
+                      </sc-for>
+                      <sc-for list="{{cells}}" as="cl" hint-placeholder-count="12">
+                        <path d="{{cl.d}}" fill="none" stroke="#FFFFFF" stroke-width="5" vector-effect="non-scaling-stroke" stroke-linejoin="round" style="pointer-events: none"></path>
+                      </sc-for>
+                      <path d="{{roads.ring}}" fill="none" stroke="#F2C14E" stroke-width="9" vector-effect="non-scaling-stroke" style="pointer-events: none"></path>
+                      <path d="{{roads.ring}}" fill="none" stroke="#FDE293" stroke-width="6" vector-effect="non-scaling-stroke" style="pointer-events: none"></path>
+                      <path d="{{roads.av1}}" fill="none" stroke="#F2C14E" stroke-width="8" vector-effect="non-scaling-stroke" style="pointer-events: none"></path>
+                      <path d="{{roads.av1}}" fill="none" stroke="#FDE293" stroke-width="5" vector-effect="non-scaling-stroke" style="pointer-events: none"></path>
+                      <path d="{{roads.av2}}" fill="none" stroke="#DADCE0" stroke-width="7" vector-effect="non-scaling-stroke" style="pointer-events: none"></path>
+                      <path d="{{roads.av2}}" fill="none" stroke="#FFFFFF" stroke-width="5" vector-effect="non-scaling-stroke" style="pointer-events: none"></path>
+                      <sc-if value="{{water.show}}" hint-placeholder-val="{{ false }}"><path d="{{water.d}}" fill="#AADAFF" style="pointer-events: none"></path></sc-if>
+                      <path d="{{selCell}}" fill="none" stroke="#D93025" stroke-width="3" stroke-dasharray="9 6" vector-effect="non-scaling-stroke" style="pointer-events: none"></path>
+                    </g>
+                  </svg>
+                  <sc-for list="{{healthPins}}" as="hp" hint-placeholder-count="10">
+                    <span aria-hidden="true" style="position: absolute; left: {{hp.left}}; top: {{hp.top}}; transform: translate(-50%, -50%); width: 20px; height: 20px; border-radius: 10px; background: #FFFFFF; border: 2px solid #2F7F80; display: flex; align-items: center; justify-content: center; pointer-events: none; transition: left .8s cubic-bezier(.2,.7,.2,1), top .8s cubic-bezier(.2,.7,.2,1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2F7F80" stroke-width="4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                  </sc-for>
+                  <sc-for list="{{cityLabels}}" as="cl" hint-placeholder-count="12">
+                    <span style="position: absolute; left: {{cl.left}}; top: {{cl.top}}; transform: translate(-50%, -50%); opacity: {{cl.op}}; pointer-events: none; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: left .8s cubic-bezier(.2,.7,.2,1), top .8s cubic-bezier(.2,.7,.2,1), opacity .4s">
+                      <span style="font-size: {{cl.fs}}; font-weight: 700; color: #3C4043; text-shadow: 0 0 3px #FFFFFF, 0 0 3px #FFFFFF, 0 0 3px #FFFFFF; white-space: nowrap">{{cl.name}}</span>
+                      <span style="font-size: 11px; font-weight: 700; background: {{cl.fill}}; color: {{cl.ink}}; padding: 0 7px; border-radius: 8px; border: 1px solid #FFFFFF">{{cl.pct}}%</span>
+                    </span>
+                  </sc-for>
+                  <sc-for list="{{pois}}" as="po" hint-placeholder-count="5">
+                    <span class="aoun-in" style="position: absolute; left: {{po.left}}; top: {{po.top}}; transform: translate(-50%, -100%); pointer-events: none; display: flex; flex-direction: column; align-items: center">
+                      <span style="display: flex; align-items: center; gap: 5px; background: #FFFFFF; border-radius: 12px; padding: 3px 8px 3px 4px; box-shadow: 0 2px 8px rgba(0,0,0,.2); font-size: 11.5px; font-weight: 600; color: #202124; white-space: nowrap">
+                        <span style="width: 20px; height: 20px; border-radius: 10px; background: {{po.color}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{po.d}}"></path></svg></span>
+                        {{po.label}}
+                      </span>
+                      <span style="width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid #FFFFFF"></span>
+                    </span>
+                  </sc-for>
+
+                  <div style="position: absolute; top: 12px; right: 12px; left: 12px; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; pointer-events: none">
+                    <label style="pointer-events: auto; display: flex; align-items: center; gap: 8px; background: #FFFFFF; border-radius: 24px; padding: 0 14px; height: 44px; box-shadow: 0 2px 8px rgba(0,0,0,.18); min-width: 220px">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F6368" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+                      <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">ابحث عن حي</span>
+                      <input placeholder="ابحث عن حي في {{cityName}}" style="border: none; outline: none; font-family: inherit; font-size: 14px; width: 100%; background: transparent; color: #202124">
+                    </label>
+                    <div role="group" aria-label="طبقة الخريطة" style="pointer-events: auto; display: flex; gap: 6px; flex-wrap: wrap">
+                      <sc-for list="{{layerChips}}" as="lc" hint-placeholder-count="3">
+                        <button onClick="{{lc.pick}}" aria-pressed="{{lc.selected}}" style="height: 36px; padding: 0 12px; border-radius: 18px; border: none; background: {{lc.bg}}; color: {{lc.ink}}; font-size: 12.5px; font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,.15); cursor: pointer">{{lc.label}}</button>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="position: absolute; bottom: 14px; left: 14px; display: flex; flex-direction: column; background: #FFFFFF; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.2); overflow: hidden">
+                    <button onClick="{{zoomIn}}" aria-label="تكبير" style="width: 40px; height: 40px; border: none; background: #FFFFFF; font-size: 22px; color: #5F6368; cursor: pointer; border-bottom: 1px solid #E8EAED">+</button>
+                    <button onClick="{{zoomOut}}" aria-label="تصغير" style="width: 40px; height: 40px; border: none; background: #FFFFFF; font-size: 22px; color: #5F6368; cursor: pointer">−</button>
+                  </div>
+                  <div style="position: absolute; bottom: 14px; right: 14px; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,.85); border-radius: 6px; padding: 3px 8px; font-size: 11px; color: #3C4043">
+                    <span style="width: 50px; height: 6px; border: 2px solid #3C4043; border-top: none; box-sizing: border-box"></span>{{scaleText}}
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{tip.show}}" hint-placeholder-val="{{ false }}">
+                <div role="tooltip" style="position: absolute; left: {{tip.left}}; top: {{tip.top}}; transform: {{tip.tf}}; width: 260px; pointer-events: none; background: rgba(16,36,28,.95); color: #FFFFFF; border-radius: 16px; padding: 12px 14px; box-shadow: 0 12px 32px rgba(0,0,0,.28); display: flex; flex-direction: column; gap: 6px; z-index: 5; text-align: right">
+                  <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px"><b style="font-size: 15px">{{tip.name}}</b><b style="font-size: 20px; color: #8FE3BE">{{tip.pct}}%</b></div>
+                  <span style="font-size: 12px; line-height: 1.6; color: #D5EFE7">{{tip.brief}}</span>
+                  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 8px; font-size: 11.5px; color: #FFFFFF">
+                    <span>المستحقون: <b>{{tip.elig}}</b></span><span>قبل عون: <b>{{tip.before}}%</b></span>
+                    <span>اكتشاف مبكر: <b>{{tip.early}}</b></span><span>متأخرون: <b>{{tip.late}}</b></span>
+                  </div>
+                  <span style="font-size: 11.5px; color: #FCD9A0; line-height: 1.6">العائق الأبرز: {{tip.barrier}} · الأكثر شيوعًا: {{tip.gap}}</span>
+                  <span style="font-size: 11px; color: #A9D8C3">{{tip.hint}}</span>
+                </div>
+              </sc-if>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: center">
+              <div style="display: flex; gap: 4px; align-items: center; font-size: 11px; color: #4C6466; flex-wrap: wrap">
+                <span>{{legendLo}}</span>
+                <sc-for list="{{legend}}" as="lg" hint-placeholder-count="5">
+                  <span style="display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="width: 40px; height: 12px; border-radius: 4px; background: {{lg.c}}; border: 1px solid #FFFFFF"></span><span>{{lg.t}}</span></span>
+                </sc-for>
+                <span>{{legendHi}}</span>
+              </div>
+              <span style="font-size: 11px; color: #5A7375">حدود المناطق: svg-maps/saudi-arabia · CC BY 4.0 · مواقع الأحياء تخطيطية</span>
+            </div>
+          </section>
+
+          <!-- لوحة النطاق -->
+          <section style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+            <div style="background: linear-gradient(150deg, #2F7F80 0%, #3F8B8B 100%); color: #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+              <span style="font-size: 12px; color: #D5EFE7">{{scope.kind}}</span>
+              <b style="font-size: 24px; line-height: 1.2">{{scope.name}}</b>
+              <span style="font-size: 13px; line-height: 1.7; color: #E3F4EF">{{scope.brief}}</span>
+              <div style="display: flex; align-items: flex-end; gap: 10px">
+                <span style="font-size: 44px; font-weight: 700; line-height: 1">{{scope.pct}}%</span>
+                <span style="font-size: 13px; color: #D5EFE7; padding-bottom: 6px">نسبة الإكمال · كانت {{scope.before}}% قبل عون</span>
+              </div>
+              <div style="height: 10px; border-radius: 5px; background: rgba(255,255,255,.2); position: relative; overflow: hidden">
+                <div style="position: absolute; top: 0; bottom: 0; right: 0; width: {{scope.pctW}}; background: #FFFFFF; border-radius: 5px"></div>
+                <div style="position: absolute; top: 0; bottom: 0; right: 0; width: {{scope.beforeW}}; background: #9FD9BF; border-radius: 5px"></div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 4px">
+                <div style="display: flex; flex-direction: column"><b style="font-size: 17px">{{scope.addedT}}</b><span style="font-size: 11px; color: #D5EFE7">فحص إضافي</span></div>
+                <div style="display: flex; flex-direction: column"><b style="font-size: 17px">{{scope.earlyT}}</b><span style="font-size: 11px; color: #D5EFE7">اكتشاف مبكر</span></div>
+                <div style="display: flex; flex-direction: column"><b style="font-size: 17px">{{scope.lateT}}</b><span style="font-size: 11px; color: #D5EFE7">ما زالوا متأخرين</span></div>
+              </div>
+            </div>
+
+            <sc-if value="{{isHood}}" hint-placeholder-val="{{ false }}">
+              <div class="aoun-in" style="background: rgba(255,255,255,.9); border: 1px solid #FFFFFF; border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+                <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+                  <div style="background: #FBF5D6; border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: #6B5A08">العائق الأبرز</span><b style="font-size: 14px; color: #4A2F04">{{hood.barrier}}</b></div>
+                  <div style="background: #FDE7E2; border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: #8A2A1C">النقص الأكثر شيوعًا</span><b style="font-size: 14px; color: #6E1F14">{{hood.gap}}</b><span style="font-size: 11px; color: #8A2A1C">لدى {{hood.gapPct}}% ممن فحصوا</span></div>
+                </div>
+                <b style="font-size: 15px">اقتراحات رفيدة لهذا الحي</b>
+                <sc-for list="{{hoodRecs}}" as="rc" hint-placeholder-count="3">
+                  <div style="border: 1px solid #DCEBE8; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 8px">
+                    <div style="display: flex; gap: 10px; align-items: flex-start">
+                      <span style="flex: 0 0 34px; height: 34px; border-radius: 11px; background: {{rc.bg}}; color: {{rc.color}}; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{rc.d}}"></path></svg></span>
+                      <div style="display: flex; flex-direction: column; gap: 2px">
+                        <b style="font-size: 14px">{{rc.title}}</b>
+                        <span style="font-size: 12px; color: #4C6466; line-height: 1.6">{{rc.why}}</span>
+                      </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+                      <span style="font-size: 12px; font-weight: 700; color: #2F7F80">{{rc.impact}}</span>
+                      <sc-if value="{{rc.pending}}" hint-placeholder-val="{{ true }}">
+                        <button onClick="{{rc.approve}}" style="min-height: 38px; padding: 0 16px; border-radius: 10px; border: none; background: #2F7F80; color: #FFFFFF; font-weight: 600; font-size: 13px; cursor: pointer">اعتماد</button>
+                      </sc-if>
+                      <sc-if value="{{rc.done}}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size: 12px; font-weight: 700; color: #2F7F80; background: #E6F4F1; padding: 7px 10px; border-radius: 10px">معتمد · رفيدة تبلّغ السكان</span>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{showList}}" hint-placeholder-val="{{ true }}">
+              <div style="background: rgba(255,255,255,.9); border: 1px solid #FFFFFF; border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+                <b style="font-size: 15px">{{listTitle}}</b>
+                <span style="font-size: 12px; color: #4C6466">الأقل إكمالًا أولًا · اضغط للدخول</span>
+                <sc-for list="{{scopeList}}" as="it" hint-placeholder-count="6">
+                  <button onClick="{{it.pick}}" style="text-align: right; min-height: 48px; border-radius: 14px; border: 1px solid #E1EFEC; background: #FFFFFF; color: #173F42; padding: 8px 12px; display: flex; align-items: center; gap: 10px; cursor: pointer">
+                    <span style="width: 12px; height: 12px; border-radius: 4px; background: {{it.fill}}; flex: 0 0 auto; border: 1px solid #C7DAD7"></span>
+                    <span style="flex: 1; display: flex; flex-direction: column"><b style="font-size: 14px">{{it.name}}</b><span style="font-size: 11px; color: #4C6466">{{it.sub}}</span></span>
+                    <b style="font-size: 15px">{{it.pct}}%</b>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </section>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px">
+          <section style="background: rgba(255,255,255,.88); border: 1px solid #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+            <h2 style="margin: 0; font-size: 18px">لماذا لا يفحص الناس؟</h2>
+            <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+              <div style="position: relative; width: 160px; height: 160px; flex: 0 0 auto">
+                <svg width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="توزيع أسباب عدم الفحص">
+                  <g transform="rotate(-90 80 80)">
+                    <sc-for list="{{donut}}" as="dn" hint-placeholder-count="6">
+                      <circle cx="80" cy="80" r="60" fill="none" stroke="{{dn.c}}" stroke-width="26" stroke-dasharray="{{dn.dash}}" stroke-dashoffset="{{dn.off}}"></circle>
+                    </sc-for>
+                  </g>
+                </svg>
+                <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none">
+                  <b style="font-size: 18px; line-height: 1.2">{{scope.lateShort}}</b>
+                  <span style="font-size: 11px; color: #4C6466">متأخر عن الفحص</span>
+                </div>
+              </div>
+              <div style="flex: 1; min-width: 150px; display: flex; flex-direction: column; gap: 7px">
+                <sc-for list="{{donut}}" as="dn" hint-placeholder-count="6">
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 13px"><span style="width: 11px; height: 11px; border-radius: 6px; background: {{dn.c}}; flex: 0 0 auto"></span><span style="flex: 1">{{dn.name}}</span><b>{{dn.pct}}%</b></div>
+                </sc-for>
+              </div>
+            </div>
+          </section>
+
+          <section style="background: rgba(255,255,255,.88); border: 1px solid #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px"><h2 style="margin: 0; font-size: 18px">الأثر عبر الأشهر</h2><b style="color: #2F7F80; font-size: 14px">+{{scope.delta}} نقطة</b></div>
+            <div style="position: relative; width: 100%; aspect-ratio: 560 / 230">
+              <svg viewBox="0 0 560 230" role="img" aria-label="نسبة إكمال الفحوصات شهريًا قبل إطلاق عون وبعده" style="position: absolute; inset: 0; width: 100%; height: 100%">
+                <sc-for list="{{chart.grid}}" as="gl" hint-placeholder-count="4">
+                  <line x1="40" x2="550" y1="{{gl.y}}" y2="{{gl.y}}" stroke="#E1EFEC" stroke-width="1"></line>
+                </sc-for>
+                <rect x="{{chart.launchX}}" y="14" width="{{chart.launchW}}" height="176" fill="#E6F4F1"></rect>
+                <path d="{{chart.area}}" fill="#2F7F80" opacity="0.10"></path>
+                <polyline points="{{chart.line}}" fill="none" stroke="#2F7F80" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"></polyline>
+                <circle cx="{{chart.lastX}}" cy="{{chart.lastY}}" r="5" fill="#FFFFFF" stroke="#2F7F80" stroke-width="3"></circle>
+                <circle cx="{{chart.firstX}}" cy="{{chart.firstY}}" r="4" fill="#FFFFFF" stroke="#5A7375" stroke-width="2.5"></circle>
+              </svg>
+              <sc-for list="{{chart.gridL}}" as="gl" hint-placeholder-count="4">
+                <span style="position: absolute; left: {{gl.left}}; top: {{gl.top}}; transform: translate(-100%, -50%); font-size: 11px; color: #5A7375">{{gl.t}}</span>
+              </sc-for>
+              <span style="position: absolute; left: {{chart.launchL}}; top: 7%; font-size: 11px; font-weight: 700; color: #2F7F80">بعد إطلاق عون</span>
+              <span style="position: absolute; left: {{chart.firstL}}; top: {{chart.firstT}}; transform: translate(-50%, -130%); font-size: 14px; font-weight: 700; color: #4C6466">{{chart.firstV}}%</span>
+              <span style="position: absolute; left: {{chart.lastL}}; top: {{chart.lastT}}; transform: translate(-50%, -130%); font-size: 16px; font-weight: 700; color: #2F7F80">{{chart.lastV}}%</span>
+              <sc-for list="{{chart.monthsL}}" as="mo" hint-placeholder-count="12">
+                <span style="position: absolute; left: {{mo.left}}; top: 88%; transform: translateX(-50%); font-size: 10.5px; color: #5A7375; white-space: nowrap">{{mo.t}}</span>
+              </sc-for>
+            </div>
+          </section>
+
+          <section style="background: rgba(255,255,255,.88); border: 1px solid #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 8px"><span class="aoun-live" style="width: 10px; height: 10px; border-radius: 5px; background: #5AA7A7"></span><h2 style="margin: 0; font-size: 18px">ما يحدث الآن</h2></div>
+            <sc-for list="{{feed}}" as="f" hint-placeholder-count="5">
+              <div class="{{f.cls}}" style="display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-top: 1px solid #EEF5F4">
+                <span style="flex: 0 0 30px; height: 30px; border-radius: 10px; background: {{f.bg}}; color: {{f.color}}; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{f.d}}"></path></svg></span>
+                <span style="flex: 1; font-size: 13px; line-height: 1.6">{{f.text}}</span>
+                <span style="font-size: 11px; color: #5A7375; white-space: nowrap">{{f.time}}</span>
+              </div>
+            </sc-for>
+          </section>
+        </div>
+
+        <section style="background: rgba(255,255,255,.88); border: 1px solid #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+          <h2 style="margin: 0; font-size: 18px">التدخلات النشطة</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+            <sc-for list="{{active}}" as="a" hint-placeholder-count="4">
+              <div style="background: {{a.bg}}; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+                <span style="width: 44px; height: 44px; border-radius: 14px; background: #FFFFFF; color: {{a.color}}; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{a.d}}"></path></svg></span>
+                <b style="font-size: 15px">{{a.title}}</b>
+                <span style="font-size: 12px; color: #35494B">{{a.where}}</span>
+                <div style="height: 7px; border-radius: 4px; background: rgba(255,255,255,.8); overflow: hidden"><div style="width: {{a.prog}}; height: 7px; background: {{a.color}}"></div></div>
+                <span style="font-size: 11px; color: #35494B">{{a.status}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ================= الإحصائيات ================= -->
+    <sc-if value="{{is.stats}}" hint-placeholder-val="{{ false }}">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px">
+        <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-size: 18px">حالات الاكتشاف المبكر حسب المرض</h2>
+          <span style="font-size: 12px; color: #4C6466">{{scope.name}} · حالات اكتُشفت في مراحلها الأولى وأُحيلت للعلاج</span>
+          <sc-for list="{{earlyBy}}" as="e" hint-placeholder-count="6">
+            <div style="display: grid; grid-template-columns: 120px minmax(0, 1fr) 60px; align-items: center; gap: 10px">
+              <span style="font-size: 13px">{{e.name}}</span>
+              <div style="height: 14px; background: #EEF5F4; border-radius: 7px; overflow: hidden"><div style="width: {{e.w}}; height: 14px; background: #2F7F80; border-radius: 7px"></div></div>
+              <b style="font-size: 13px">{{e.v}}</b>
+            </div>
+          </sc-for>
+        </section>
+        <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-size: 18px">رحلة المستفيد مع رفيدة</h2>
+          <span style="font-size: 12px; color: #4C6466">من أول تواصل إلى الاكتشاف المبكر</span>
+          <sc-for list="{{funnel}}" as="f" hint-placeholder-count="6">
+            <div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 80px; align-items: center; gap: 10px">
+              <span style="font-size: 13px">{{f.name}}</span>
+              <div style="height: 24px; background: #EEF5F4; border-radius: 7px; overflow: hidden"><div style="width: {{f.w}}; height: 24px; background: linear-gradient(90deg, #5AA7A7, #2F7F80); border-radius: 7px"></div></div>
+              <b style="font-size: 13px">{{f.v}}</b>
+            </div>
+          </sc-for>
+        </section>
+        <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-size: 18px">نسبة الاستفادة حسب الفئة</h2>
+          <span style="font-size: 12px; color: #4C6466">من تواصلت معهم رفيدة وحجزوا فحصًا</span>
+          <sc-for list="{{segments}}" as="sg" hint-placeholder-count="6">
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <div style="display: flex; justify-content: space-between; font-size: 13px"><span>{{sg.name}}</span><b>{{sg.v}}%</b></div>
+              <div style="height: 10px; background: #EEF5F4; border-radius: 5px; overflow: hidden"><div style="width: {{sg.w}}; height: 10px; background: #5AA7A7; border-radius: 5px"></div></div>
+            </div>
+          </sc-for>
+        </section>
+        <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-size: 18px">قنوات التواصل</h2>
+          <span style="font-size: 12px; color: #4C6466">كيف يفضّل الناس الحديث مع رفيدة</span>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+            <sc-for list="{{channels}}" as="ch" hint-placeholder-count="6">
+              <div style="background: #F2F8F7; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 2px"><b style="font-size: 22px; color: #2F7F80">{{ch.v}}%</b><span style="font-size: 12px; color: #35494B">{{ch.name}}</span></div>
+            </sc-for>
+          </div>
+        </section>
+        <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-size: 18px">النقص الصحي الأكثر شيوعًا</h2>
+          <span style="font-size: 12px; color: #4C6466">{{scope.name}} · عدد الأحياء اللي يتصدر فيها كل نقص</span>
+          <sc-for list="{{gapsList}}" as="g" hint-placeholder-count="6">
+            <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) 40px; align-items: center; gap: 10px">
+              <span style="font-size: 13px">{{g.name}}</span>
+              <div style="height: 12px; background: #EEF5F4; border-radius: 6px; overflow: hidden"><div style="width: {{g.w}}; height: 12px; background: #D9822B; border-radius: 6px"></div></div>
+              <b style="font-size: 13px">{{g.v}}</b>
+            </div>
+          </sc-for>
+        </section>
+        <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-size: 18px">ترتيب المناطق</h2>
+          <sc-for list="{{regionRank}}" as="rr" hint-placeholder-count="13">
+            <div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 46px; align-items: center; gap: 8px">
+              <span style="font-size: 12px">{{rr.name}}</span>
+              <div style="height: 10px; background: #EEF5F4; border-radius: 5px; overflow: hidden"><div style="width: {{rr.w}}; height: 10px; background: {{rr.fill}}; border-radius: 5px; border: 1px solid #C7DAD7; box-sizing: border-box"></div></div>
+              <b style="font-size: 12px">{{rr.pct}}%</b>
+            </div>
+          </sc-for>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ================= التدخلات ================= -->
+    <sc-if value="{{is.agents}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px">
+          <sc-for list="{{ag.kpis}}" as="k" hint-placeholder-count="4">
+            <div style="background: rgba(255,255,255,.9); border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 4px">
+              <span style="font-size: 13px; color: #4C6466">{{k.label}}</span>
+              <b style="font-size: 30px; color: #173F42; font-variant-numeric: tabular-nums">{{k.value}}</b>
+              <span style="font-size: 12px; font-weight: 700; color: {{k.ink}}">{{k.sub}}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px">
+          <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+            <h2 style="margin: 0; font-size: 18px">رحلة كل 1000 ساكن</h2>
+            <span style="font-size: 12px; color: #4C6466">من أول مكالمة إلى فحص راجعه الطبيب</span>
+            <sc-for list="{{ag.funnel}}" as="f" hint-placeholder-count="4">
+              <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) 60px; align-items: center; gap: 10px">
+                <span style="font-size: 13px">{{f.name}}</span>
+                <div style="height: 24px; background: #EEF5F4; border-radius: 7px; overflow: hidden"><div style="width: {{f.w}}; height: 24px; background: linear-gradient(90deg, #96D7C6, #2F7F80); border-radius: 7px"></div></div>
+                <b style="font-size: 13px">{{f.v}}</b>
+              </div>
+            </sc-for>
+            <span style="font-size: 12px; color: #4C6466">{{ag.undiag}}</span>
+          </section>
+          <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+            <h2 style="margin: 0; font-size: 18px">مكالمات رفيدة آخر 14 يوم</h2>
+            <span style="font-size: 12px; color: #4C6466">مكالمات · ردّوا · حجزوا</span>
+            <svg viewBox="0 0 600 120" preserveAspectRatio="none" style="width: 100%; height: 130px">
+              <polyline points="{{ag.spark.calls}}" fill="none" stroke="#C7DAD7" stroke-width="3"></polyline>
+              <polyline points="{{ag.spark.ans}}" fill="none" stroke="#6C8CBF" stroke-width="3"></polyline>
+              <polyline points="{{ag.spark.booked}}" fill="none" stroke="#2F7F80" stroke-width="4"></polyline>
+            </svg>
+            <span style="font-size: 12px; color: #4C6466">{{ag.spark.note}}</span>
+          </section>
+        </div>
+        <h2 style="margin: 4px 0 0; font-size: 18px">الوكلاء الأربعة</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px">
+          <sc-for list="{{ag.agents}}" as="a" hint-placeholder-count="4">
+            <section style="background: rgba(255,255,255,.9); border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span style="width: 40px; height: 40px; border-radius: 12px; background: {{a.bg}}; color: #173F42; display: flex; align-items: center; justify-content: center; font-weight: 700">{{a.initial}}</span>
+                <div style="display: flex; flex-direction: column; flex: 1"><b style="font-size: 15px">{{a.name}}</b><span style="font-size: 12px; color: #4C6466">{{a.role}}</span></div>
+                <span style="font-size: 11px; font-weight: 700; background: #F2F5DC; color: #5E6A12; padding: 3px 9px; border-radius: 10px">يعمل</span>
+              </div>
+              <sc-for list="{{a.metrics}}" as="m" hint-placeholder-count="4">
+                <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px; border-top: 1px dashed #D5E6EE; padding-top: 6px"><span style="color: #4C6466">{{m.k}}</span><b>{{m.v}}</b></div>
+              </sc-for>
+            </section>
+          </sc-for>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px">
+          <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+            <h2 style="margin: 0; font-size: 18px">كل وكيل له دور</h2>
+            <span style="font-size: 12px; color: #4C6466">فحوصات مكتملة لكل 1000 ساكن عند إيقاف وكيل واحد</span>
+            <sc-for list="{{ag.ablation}}" as="b" hint-placeholder-count="6">
+              <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 50px; align-items: center; gap: 10px">
+                <span style="font-size: 13px">{{b.name}}</span>
+                <div style="height: 14px; background: #EEF5F4; border-radius: 7px; overflow: hidden"><div style="width: {{b.w}}; height: 14px; background: {{b.color}}; border-radius: 7px"></div></div>
+                <b style="font-size: 13px">{{b.v}}</b>
+              </div>
+            </sc-for>
+          </section>
+          <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+            <h2 style="margin: 0; font-size: 18px">فهم رفيدة حسب لغة الساكن</h2>
+            <span style="font-size: 12px; color: #4C6466">على عبارات جديدة لم يُضبط عليها النظام</span>
+            <sc-for list="{{ag.langs}}" as="l" hint-placeholder-count="7">
+              <div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 50px; align-items: center; gap: 10px">
+                <span style="font-size: 13px">{{l.name}}</span>
+                <div style="height: 14px; background: #EEF5F4; border-radius: 7px; overflow: hidden"><div style="width: {{l.w}}; height: 14px; background: #5AA7A7; border-radius: 7px"></div></div>
+                <b style="font-size: 13px">{{l.v}}</b>
+              </div>
+            </sc-for>
+          </section>
+        </div>
+        <span style="font-size: 12px; color: #4C6466">{{ag.note}}</span>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{is.actions}}" hint-placeholder-val="{{ false }}">
+      <section style="background: rgba(255,255,255,.9); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-size: 18px">أحياء تحتاج تدخلًا · {{scope.name}}</h2>
+        <span style="font-size: 12px; color: #4C6466">رفيدة رتبت الأحياء حسب الأولوية، واقترحت لكل حي تدخلًا للعائق الأبرز وآخر للنقص الصحي الأكثر شيوعًا</span>
+        <div style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px">
+            <thead>
+              <tr style="background: #2F7F80; color: #FFFFFF">
+                <th style="text-align: right; padding: 10px 12px; font-weight: 600">الحي</th>
+                <th style="text-align: right; padding: 10px 12px; font-weight: 600">الإكمال</th>
+                <th style="text-align: right; padding: 10px 12px; font-weight: 600">العائق الأبرز</th>
+                <th style="text-align: right; padding: 10px 12px; font-weight: 600">النقص الأكثر شيوعًا</th>
+                <th style="text-align: right; padding: 10px 12px; font-weight: 600">التدخل المقترح</th>
+                <th style="text-align: right; padding: 10px 12px; font-weight: 600">القرار</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{actionRows}}" as="ar" hint-placeholder-count="10">
+                <tr style="border-bottom: 1px solid #E1EFEC">
+                  <td style="padding: 10px 12px"><b>{{ar.name}}</b><br><span style="font-size: 11px; color: #4C6466">{{ar.city}}</span></td>
+                  <td style="padding: 10px 12px"><span style="font-weight: 700; padding: 3px 10px; border-radius: 10px; background: {{ar.fill}}; color: {{ar.ink}}">{{ar.pct}}%</span></td>
+                  <td style="padding: 10px 12px">{{ar.barrier}}</td>
+                  <td style="padding: 10px 12px">{{ar.gap}}</td>
+                  <td style="padding: 10px 12px; line-height: 1.6">{{ar.act1}}<br><span style="color: #4C6466">{{ar.act2}}</span></td>
+                  <td style="padding: 10px 12px">
+                    <sc-if value="{{ar.pending}}" hint-placeholder-val="{{ true }}"><button onClick="{{ar.approve}}" style="min-height: 38px; padding: 0 14px; border-radius: 10px; border: none; background: #2F7F80; color: #FFFFFF; font-weight: 600; font-size: 13px; cursor: pointer">اعتماد</button></sc-if>
+                    <sc-if value="{{ar.done}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; font-weight: 700; color: #2F7F80">معتمد</span></sc-if>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- ================= التقارير ================= -->
+    <sc-if value="{{is.reports}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <section style="background: linear-gradient(150deg, #2F7F80 0%, #3F8B8B 100%); color: #FFFFFF; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+          <div style="display: flex; align-items: center; gap: 10px"><span style="width: 40px; height: 40px; border-radius: 20px; background: radial-gradient(circle at 36% 30%, #FFFFFF 0%, #C4EADF 40%, #5AA7A7 80%)"></span><b style="font-size: 18px">ملخص رفيدة الأسبوعي · {{scope.name}}</b></div>
+          <sc-for list="{{summary}}" as="sm" hint-placeholder-count="4">
+            <div style="display: flex; gap: 8px; font-size: 14px; line-height: 1.8"><span style="color: #9FE0C3">●</span><span>{{sm}}</span></div>
+          </sc-for>
+        </section>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px">
+          <sc-for list="{{reports}}" as="rp" hint-placeholder-count="6">
+            <div style="background: rgba(255,255,255,.9); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+              <span style="width: 40px; height: 40px; border-radius: 12px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h6"></path></svg></span>
+              <b style="font-size: 15px">{{rp.title}}</b>
+              <span style="font-size: 12px; color: #4C6466; line-height: 1.6">{{rp.desc}}</span>
+              <span style="font-size: 11px; color: #5A7375">{{rp.when}}</span>
+              <div style="display: flex; gap: 6px; margin-top: 4px">
+                <button style="flex: 1; min-height: 38px; border-radius: 10px; border: none; background: #2F7F80; color: #FFFFFF; font-size: 13px; font-weight: 600; cursor: pointer">تصدير PDF</button>
+                <button style="flex: 1; min-height: 38px; border-radius: 10px; border: 1px solid #CFE2DF; background: #FFFFFF; color: #2F7F80; font-size: 13px; font-weight: 600; cursor: pointer">Excel</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <!-- ================= الإعدادات ================= -->
+    <sc-if value="{{is.settings}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+          <div style="display: flex; flex-direction: column; gap: 2px"><h2 style="margin: 0; font-size: 22px">الإعدادات</h2><span style="font-size: 13px; color: #4C6466">تحكّم في تنبيهات المنصة وسلوك رفيدة والخصوصية والفريق</span></div>
+          <div style="display: flex; align-items: center; gap: 10px">
+            <sc-if value="{{saved}}" hint-placeholder-val="{{ false }}"><span role="status" style="font-size: 13px; font-weight: 700; color: #2F7F80; background: #E6F4F1; padding: 8px 12px; border-radius: 12px">✓ تم حفظ الإعدادات</span></sc-if>
+            <button onClick="{{resetSettings}}" style="min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid #CFE2DF; background: #FFFFFF; color: #2F7F80; font-size: 14px; font-weight: 600; cursor: pointer">استعادة الافتراضي</button>
+            <button onClick="{{saveSettings}}" disabled="{{clean}}" style="min-height: 44px; padding: 0 20px; border-radius: 12px; border: none; background: {{saveBg}}; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: {{saveCursor}}">حفظ التغييرات</button>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; align-items: start">
+        <section style="background: rgba(255,255,255,.92); border: 1px solid #FFFFFF; border-radius: 22px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 6px 20px rgba(11,110,79,.05)">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg></span><div style="display: flex; flex-direction: column"><h2 style="margin: 0; font-size: 17px">التنبيهات والحدود</h2><span style="font-size: 12.5px; color: #4C6466">متى تنبّهك المنصة عن حي أو مدينة</span></div></div>
+          <sc-for list="{{steppers}}" as="st" hint-placeholder-count="3">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px solid #E3F0EE">
+                <div style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px">{{st.label}}</b><span style="font-size: 12.5px; color: #4C6466; line-height: 1.6">{{st.desc}}</span></div>
+                <div role="group" aria-label="{{st.label}}" style="display: flex; align-items: center; gap: 6px; flex: 0 0 auto">
+                  <button onClick="{{st.dec}}" aria-label="{{st.decLabel}}" style="width: 40px; height: 40px; border-radius: 12px; border: 1px solid #CFE2DF; background: #FFFFFF; color: #2F7F80; font-size: 20px; cursor: pointer">−</button>
+                  <output aria-live="polite" style="min-width: 64px; text-align: center; font-size: 16px; font-weight: 700">{{st.value}}</output>
+                  <button onClick="{{st.inc}}" aria-label="{{st.incLabel}}" style="width: 40px; height: 40px; border-radius: 12px; border: 1px solid #CFE2DF; background: #FFFFFF; color: #2F7F80; font-size: 20px; cursor: pointer">+</button>
+                </div>
+              </div>
+            </sc-for><sc-for list="{{alertToggles}}" as="at" hint-placeholder-count="3">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px solid #E3F0EE">
+                <div style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px">{{at.label}}</b><span style="font-size: 12.5px; color: #4C6466; line-height: 1.6">{{at.desc}}</span></div>
+                <button role="switch" aria-checked="{{at.on}}" aria-label="{{at.label}}" onClick="{{at.toggle}}" disabled="{{at.locked}}" style="flex: 0 0 auto; width: 52px; height: 32px; border-radius: 16px; border: none; padding: 3px; background: {{at.track}}; display: flex; justify-content: {{at.justify}}; cursor: {{at.cursor}}"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,.25)"></span></button>
+              </div>
+            </sc-for>
+        </section>
+
+        <section style="background: rgba(255,255,255,.92); border: 1px solid #FFFFFF; border-radius: 22px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 6px 20px rgba(11,110,79,.05)">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4zM4 22a8 8 0 0 1 16 0"></path></svg></span><div style="display: flex; flex-direction: column"><h2 style="margin: 0; font-size: 17px">رفيدة والتدخلات</h2><span style="font-size: 12.5px; color: #4C6466">كيف يقترح الوكيل التدخلات ويتواصل مع الناس</span></div></div>
+          <sc-for list="{{agentToggles}}" as="ag" hint-placeholder-count="3">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px solid #E3F0EE">
+                <div style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px">{{ag.label}}</b><span style="font-size: 12.5px; color: #4C6466; line-height: 1.6">{{ag.desc}}</span></div>
+                <button role="switch" aria-checked="{{ag.on}}" aria-label="{{ag.label}}" onClick="{{ag.toggle}}" disabled="{{ag.locked}}" style="flex: 0 0 auto; width: 52px; height: 32px; border-radius: 16px; border: none; padding: 3px; background: {{ag.track}}; display: flex; justify-content: {{ag.justify}}; cursor: {{ag.cursor}}"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,.25)"></span></button>
+              </div>
+            </sc-for><sc-for list="{{chipRows}}" as="cr2" hint-placeholder-count="2">
+              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 0; border-top: 1px solid #E3F0EE">
+                <div style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px">{{cr2.label}}</b><span style="font-size: 12.5px; color: #4C6466">{{cr2.desc}}</span></div>
+                <div role="radiogroup" aria-label="{{cr2.label}}" style="display: flex; gap: 6px; flex-wrap: wrap">
+                  <sc-for list="{{cr2.opts}}" as="op" hint-placeholder-count="3">
+                    <button role="radio" aria-checked="{{op.on}}" onClick="{{op.pick}}" style="min-height: 40px; padding: 0 14px; border-radius: 12px; border: 1.5px solid {{op.border}}; background: {{op.bg}}; color: {{op.ink}}; font-size: 13px; font-weight: 600; cursor: pointer">{{op.label}}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+        </section>
+
+        <section style="background: rgba(255,255,255,.92); border: 1px solid #FFFFFF; border-radius: 22px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 6px 20px rgba(11,110,79,.05)">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path></svg></span><div style="display: flex; flex-direction: column"><h2 style="margin: 0; font-size: 17px">الحملات الموسمية</h2><span style="font-size: 12.5px; color: #4C6466">رسائل توعوية مرتبطة بالمواسم، بدون تخويف</span></div></div>
+          <sc-for list="{{seasonToggles}}" as="se" hint-placeholder-count="3">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px solid #E3F0EE">
+                <div style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px">{{se.label}}</b><span style="font-size: 12.5px; color: #4C6466; line-height: 1.6">{{se.desc}}</span></div>
+                <button role="switch" aria-checked="{{se.on}}" aria-label="{{se.label}}" onClick="{{se.toggle}}" disabled="{{se.locked}}" style="flex: 0 0 auto; width: 52px; height: 32px; border-radius: 16px; border: none; padding: 3px; background: {{se.track}}; display: flex; justify-content: {{se.justify}}; cursor: {{se.cursor}}"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,.25)"></span></button>
+              </div>
+            </sc-for>
+        </section>
+
+        <section style="background: rgba(255,255,255,.92); border: 1px solid #FFFFFF; border-radius: 22px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 6px 20px rgba(11,110,79,.05)">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"></path></svg></span><div style="display: flex; flex-direction: column"><h2 style="margin: 0; font-size: 17px">الخصوصية والبيانات</h2><span style="font-size: 12.5px; color: #4C6466">حماية هوية المستفيدين</span></div></div>
+          <sc-for list="{{privacyToggles}}" as="pv" hint-placeholder-count="3">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px solid #E3F0EE">
+                <div style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px">{{pv.label}}</b><span style="font-size: 12.5px; color: #4C6466; line-height: 1.6">{{pv.desc}}</span></div>
+                <button role="switch" aria-checked="{{pv.on}}" aria-label="{{pv.label}}" onClick="{{pv.toggle}}" disabled="{{pv.locked}}" style="flex: 0 0 auto; width: 52px; height: 32px; border-radius: 16px; border: none; padding: 3px; background: {{pv.track}}; display: flex; justify-content: {{pv.justify}}; cursor: {{pv.cursor}}"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,.25)"></span></button>
+              </div>
+            </sc-for>
+        </section>
+
+        <section style="background: rgba(255,255,255,.92); border: 1px solid #FFFFFF; border-radius: 22px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 6px 20px rgba(11,110,79,.05)">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"></path></svg></span><div style="display: flex; flex-direction: column"><h2 style="margin: 0; font-size: 17px">الفريق والصلاحيات</h2><span style="font-size: 12.5px; color: #4C6466">من يقدر يشوف ويعتمد التدخلات</span></div></div>
+          <div role="table" aria-label="أعضاء الفريق" style="display: flex; flex-direction: column">
+              <sc-for list="{{team}}" as="tm" hint-placeholder-count="4">
+                <div role="row" style="display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid #E3F0EE; font-size: 13.5px">
+                  <span role="cell" style="display: flex; align-items: center; gap: 8px"><span style="width: 34px; height: 34px; border-radius: 17px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center; font-weight: 700">{{tm.ini}}</span><b>{{tm.name}}</b></span>
+                  <span role="cell">{{tm.role}}</span>
+                  <span role="cell" style="color: #4C6466">{{tm.scope}}</span>
+                  <span role="cell" style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 10px; background: {{tm.bg}}; color: {{tm.ink}}">{{tm.status}}</span>
+                </div>
+              </sc-for>
+              <button style="align-self: flex-start; margin-top: 8px; min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1.5px dashed #5AA7A7; background: transparent; color: #2F7F80; font-size: 14px; font-weight: 700; cursor: pointer">+ دعوة عضو</button>
+            </div>
+        </section>
+
+        <section style="background: rgba(255,255,255,.92); border: 1px solid #FFFFFF; border-radius: 22px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 6px 20px rgba(11,110,79,.05)">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #E6F4F1; color: #2F7F80; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"></path></svg></span><div style="display: flex; flex-direction: column"><h2 style="margin: 0; font-size: 17px">الربط مع الأنظمة</h2><span style="font-size: 12.5px; color: #4C6466">حالة التكامل (بيانات تجريبية)</span></div></div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px">
+              <sc-for list="{{integrations}}" as="ig" hint-placeholder-count="4">
+                <div style="border: 1px solid #E3F0EE; border-radius: 14px; padding: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px">
+                  <div style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px">{{ig.name}}</b><span style="font-size: 12px; color: #4C6466">{{ig.desc}}</span></div>
+                  <span style="font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 10px; background: {{ig.bg}}; color: {{ig.ink}}; white-space: nowrap">{{ig.status}}</span>
+                </div>
+              </sc-for>
+            </div>
+        </section>
+
+        </div>
+      </div>
+    </sc-if>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'home', region: null, city: null, hood: null, hover: null, geo: null, geoErr: false, tick: 0, approved: {}, range: 'year', cfg: null, savedCfg: null, saved: false };
+  }
+  componentDidMount() {
+    fetch('/_blob/9696cd0a861bad1a76006865402e9335').then((r) => r.json()).then((geo) => this.setState({ geo })).catch(() => this.setState({ geoErr: true }));
+    this.timer = setInterval(() => this.setState((s) => ({ tick: s.tick + 1 })), 2800);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+
+  data() {
+    if (this._d) return this._d;
+    const hs = (str, salt) => { let h = 2166136261 ^ salt; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return ((h >>> 0) % 10000) / 10000; };
+    const RN = { 'ryiadh': 'الرياض', 'mecca': 'مكة المكرمة', 'medina': 'المدينة المنورة', 'eastern-province': 'الشرقية', 'al-qassim': 'القصيم', 'hail': 'حائل', 'tabuk': 'تبوك', 'northern-borders': 'الحدود الشمالية', 'jizan': 'جازان', 'najran': 'نجران', 'al-bahah': 'الباحة', 'al-jawf': 'الجوف', 'asir': 'عسير' };
+    const BAR = ['بُعد المركز', 'تعارض المواعيد مع الدوام', 'المواصلات', 'رعاية الأطفال', 'الخوف من الفحص', 'قلة الوعي', 'تفضيل طبيبة', 'صعوبة الحجز'];
+    const GAPS = ['نقص فيتامين د', 'سكري غير مشخّص', 'ارتفاع ضغط غير مشخّص', 'فقر الدم (الأنيميا)', 'السمنة', 'ارتفاع الكوليسترول'];
+    const REGGAP = { 'eastern-province': 'فقر الدم المنجلي', 'jizan': 'الثلاسيميا' };
+    const REMOTE = { 'شرورة': 1, 'عرعر': 1, 'القريات': 1, 'حفر الباطن': 1, 'سكاكا': 1, 'تبوك': 1, 'الباحة': 1, 'نجران': 1 };
+    const OVR = {
+      'البطحاء': { before: 22, pct: 38, barrier: 'حاجز اللغة', gap: 'سكري غير مشخّص' },
+      'السلي': { before: 31, pct: 47, barrier: 'حاجز اللغة', gap: 'ارتفاع ضغط غير مشخّص' },
+      'النسيم': { before: 41, pct: 63, barrier: 'المواصلات' },
+      'السويدي': { before: 43, pct: 55, barrier: 'المواصلات' },
+      'الملقا': { before: 44, pct: 52, barrier: 'تعارض المواعيد مع الدوام', gap: 'نقص فيتامين د' },
+      'العليا': { before: 47, pct: 58, barrier: 'تعارض المواعيد مع الدوام', gap: 'ارتفاع الكوليسترول' },
+      'البلد': { before: 29, pct: 44, barrier: 'حاجز اللغة' },
+      'الهفوف': { gap: 'فقر الدم المنجلي' },
+      'الروضة': { barrier: 'تفضيل طبيبة' }
+    };
+    const DIRS = [['شمال', 0, 1], ['غرب', 1, 0], ['وسط', 1, 1], ['شرق', 1, 2], ['جنوب', 2, 1]];
+    const CITIES = [
+      ['الرياض', 'ryiadh', 421.4, 293.1, [['القيروان', 0, 0], ['الملقا', 0, 1], ['الياسمين', 0, 2], ['النرجس', 0, 3], ['الرمال', 0, 4], ['حطين', 1, 0], ['الصحافة', 1, 1], ['المروج', 1, 2], ['النهضة', 1, 3], ['الروضة', 1, 4], ['عرقة', 2, 0], ['العليا', 2, 1], ['السليمانية', 2, 2], ['الملز', 2, 3], ['النسيم', 2, 4], ['السويدي', 3, 0], ['البديعة', 3, 1], ['البطحاء', 3, 2], ['الربوة', 3, 3], ['السلي', 3, 4], ['الشفا', 4, 1], ['منفوحة', 4, 2], ['العزيزية', 4, 3]]],
+      ['الخرج', 'ryiadh', 441.4, 313.5, null],
+      ['جدة', 'mecca', 161.0, 411.3, [['أبحر الشمالية', 0, 0], ['الحمدانية', 0, 2], ['الشاطئ', 1, 0], ['النعيم', 1, 1], ['الصفا', 1, 2], ['الروضة', 2, 0], ['الفيصلية', 2, 1], ['السامر', 2, 2], ['البلد', 3, 0], ['الشرفية', 3, 1], ['بني مالك', 3, 2], ['الهنداوية', 4, 0], ['الكندرة', 4, 1]]],
+      ['مكة المكرمة', 'mecca', 183.8, 415.7, [['الشوقية', 0, 0], ['الزاهر', 0, 1], ['العزيزية', 1, 1], ['الششة', 1, 2], ['العوالي', 2, 1], ['النسيم', 2, 2]]],
+      ['الطائف', 'mecca', 204.1, 421.3, null],
+      ['المدينة المنورة', 'medina', 176.2, 301.4, [['العاقول', 0, 1], ['سلطانة', 1, 0], ['الخالدية', 1, 1], ['الحرة الشرقية', 1, 2], ['قباء', 2, 0], ['العوالي', 2, 1]]],
+      ['ينبع', 'medina', 122.8, 315.8, null],
+      ['الدمام', 'eastern-province', 537.9, 226.5, [['الشاطئ', 0, 1], ['المزروعية', 1, 0], ['الفيصلية', 1, 1], ['النور', 1, 2], ['الريان', 2, 0], ['طيبة', 2, 1]]],
+      ['الخبر', 'eastern-province', 541.7, 232.3, [['الخبر الشمالية', 0, 1], ['الراكة', 1, 0], ['العقربية', 1, 1], ['الثقبة', 2, 0], ['الحزام الذهبي', 2, 1]]],
+      ['الأحساء', 'eastern-province', 520.3, 266.8, [['المبرز', 0, 1], ['العيون', 0, 2], ['الهفوف', 1, 1], ['الطرف', 2, 2], ['الجفر', 2, 1]]],
+      ['حفر الباطن', 'eastern-province', 395.5, 148.7, null],
+      ['بريدة', 'al-qassim', 326.6, 230.3, null],
+      ['عنيزة', 'al-qassim', 327.2, 240.0, null],
+      ['حائل', 'hail', 247.9, 184.3, null],
+      ['تبوك', 'tabuk', 71.4, 150.7, null],
+      ['عرعر', 'northern-borders', 225.5, 47.4, null],
+      ['سكاكا', 'al-jawf', 196.9, 87.8, null],
+      ['القريات', 'al-jawf', 97.9, 33.3, null],
+      ['أبها', 'asir', 276.2, 533.1, null],
+      ['خميس مشيط', 'asir', 283.8, 529.9, null],
+      ['نجران', 'najran', 332.1, 559.6, null],
+      ['شرورة', 'najran', 434.8, 560.0, null],
+      ['جازان', 'jizan', 277.6, 581.3, null],
+      ['الباحة', 'al-bahah', 240.3, 467.7, null]
+    ];
+    const hoods = [];
+    const cities = CITIES.map(([name, region, x, y, list]) => {
+      const spec = list || DIRS.map(([d, r, c]) => [d + ' ' + name, r, c]);
+      const hh = spec.map(([hn, row, col]) => {
+        const key = name + '|' + hn; const o = OVR[hn] || {};
+        const elig = Math.round(2500 + hs(key, 1) * 9000);
+        const before = o.before != null ? o.before : Math.round(30 + hs(key, 2) * 24);
+        const pct = o.pct != null ? o.pct : Math.min(84, Math.round(before + 6 + hs(key, 3) * 20));
+        const barrier = o.barrier || (REMOTE[name] && hs(key, 10) < 0.55 ? 'بُعد المركز' : BAR[Math.floor(hs(key, 4) * BAR.length)]);
+        const gap = o.gap || (REGGAP[region] && hs(key, 5) < 0.55 ? REGGAP[region] : GAPS[Math.floor(hs(key, 6) * GAPS.length)]);
+        const gapPct = Math.round(22 + hs(key, 7) * 40);
+        const added = Math.round(elig * (pct - before) / 100);
+        const early = Math.max(2, Math.round(added * (0.025 + hs(key, 8) * 0.02)));
+        const engaged = Math.round(55 + hs(key, 9) * 35);
+        const h = { name: hn, city: name, region, row, col, elig, before, pct, barrier, gap, gapPct, added, early, engaged,
+          screened: Math.round(elig * pct / 100), late: Math.round(elig * (100 - pct) / 100) };
+        hoods.push(h); return h;
+      });
+      return { name, region, x, y, hoods: hh };
+    });
+    this._d = { RN, cities, hoods };
+    return this._d;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const { RN, cities, hoods } = this.data();
+    const fmt = (n) => Math.round(n).toLocaleString('en-US');
+    const short = (n) => n >= 1000000 ? (n / 1000000).toFixed(1) + ' مليون' : n >= 10000 ? Math.round(n / 1000) + ' ألف' : fmt(n);
+    const COL = (p) => p < 45 ? ['#F2C4B8', '#5E1A0E'] : p < 55 ? ['#F1E7A6', '#4F3303'] : p < 65 ? ['#CDEDE5', '#08331F'] : p < 75 ? ['#96D7C6', '#06281A'] : ['#2F7F80', '#FFFFFF'];
+    const agg = (list) => {
+      let e = 0, sc = 0, ad = 0, ea = 0, b = 0, eng = 0; const bars = {}, gaps = {};
+      list.forEach((h) => { e += h.elig; sc += h.screened; ad += h.added; ea += h.early; b += h.elig * h.before; eng += h.elig * h.engaged;
+        bars[h.barrier] = (bars[h.barrier] || 0) + h.late; gaps[h.gap] = (gaps[h.gap] || 0) + 1; });
+      return { elig: e, screened: sc, added: ad, early: ea, before: Math.round(b / e), pct: Math.round(sc / e * 100), engaged: Math.round(eng / e), bars, gaps, late: e - sc };
+    };
+    const regionIds = Object.keys(RN);
+    const regionAgg = {}; regionIds.forEach((id) => { regionAgg[id] = agg(hoods.filter((h) => h.region === id)); });
+    const cityObj = s.city ? cities.find((c) => c.name === s.city) : null;
+    const hoodObj = s.hood && cityObj ? cityObj.hoods.find((h) => h.name === s.hood) : null;
+    const level = hoodObj ? 'hood' : cityObj ? 'city' : s.region ? 'region' : 'kingdom';
+    const scopeHoods = hoodObj ? [hoodObj] : cityObj ? cityObj.hoods : s.region ? hoods.filter((h) => h.region === s.region) : hoods;
+    const A = agg(scopeHoods);
+    const rangeK = { month: 0.12, quarter: 0.33, year: 1 }[s.range];
+
+    const goKingdom = () => this.setState({ region: null, city: null, hood: null });
+    const goRegion = (id) => () => this.setState({ region: id, city: null, hood: null });
+    const goCity = (name, region) => () => this.setState({ region, city: name, hood: null, zoom: 1, hover: null });
+    const goHood = (name) => () => this.setState({ hood: name });
+
+    const crumbs = [{ label: 'المملكة', go: goKingdom }];
+    if (s.region) crumbs.push({ label: 'منطقة ' + RN[s.region], go: goRegion(s.region) });
+    if (cityObj) crumbs.push({ label: cityObj.name, go: goCity(cityObj.name, cityObj.region) });
+    if (hoodObj) crumbs.push({ label: 'حي ' + hoodObj.name, go: () => {} });
+    crumbs.forEach((c, i) => { const last = i === crumbs.length - 1; c.sep = !last; c.color = last ? '#173F42' : '#2F7F80'; c.weight = last ? 700 : 500; });
+
+    const back = level === 'hood' ? () => this.setState({ hood: null }) : level === 'city' ? () => this.setState({ city: null, hood: null }) : goKingdom;
+
+    // map
+    const geo = s.geo;
+    let mapT = 'translate(0px, 0px) scale(1)'; let k = 1, tx = 0, ty = 0;
+    if (geo && s.region) {
+      const reg = geo.regions.find((r) => r.id === s.region);
+      if (reg) { const [x0, y0, x1, y1] = reg.bbox; const w = x1 - x0, h = y1 - y0;
+        k = Math.min(730 / w, 600 / h) * 0.8; tx = (730 - k * (x0 + x1)) / 2; ty = (600 - k * (y0 + y1)) / 2;
+        mapT = 'translate(' + tx.toFixed(1) + 'px, ' + ty.toFixed(1) + 'px) scale(' + k.toFixed(3) + ')'; }
+    }
+    const leave = () => this.setState({ hover: null });
+    const regionShapes = geo ? geo.regions.map((r) => { const a = regionAgg[r.id]; return { d: r.d, fill: COL(a.pct)[0], op: s.region && s.region !== r.id ? 0.28 : 1, pick: goRegion(r.id), enter: () => this.setState({ hover: { kind: 'region', id: r.id } }) }; }) : [];
+    const LBL = { 'eastern-province': [560, 330], 'northern-borders': [270, 95], 'al-jawf': [120, 105], 'tabuk': [100, 215], 'mecca': [215, 380], 'ryiadh': [360, 360], 'medina': [150, 260], 'hail': [240, 215], 'al-qassim': [290, 262], 'najran': [390, 530], 'asir': [300, 480], 'jizan': [262, 560], 'al-bahah': [225, 452] };
+    const pc = (v) => v.toFixed(2) + '%';
+    const regionLabels = geo && !s.region ? geo.regions.map((r) => { const p = LBL[r.id] || r.c; const small = r.id === 'al-bahah' || r.id === 'jizan';
+      return { left: pc(p[0] / 730 * 100), top: pc(p[1] / 600 * 100), name: RN[r.id], fs: small ? '10px' : '13px' }; }) : [];
+    const BELOW = { 'الخبر': 1, 'مكة المكرمة': 1, 'عنيزة': 1, 'خميس مشيط': 1, 'الخرج': 1 };
+    const cityPins = geo && s.region && !cityObj ? cities.filter((c) => c.region === s.region).map((c) => { const a = agg(c.hoods); const [fill, ink] = COL(a.pct); const below = !!BELOW[c.name];
+      return { left: pc((tx + k * c.x) / 730 * 100), top: pc((ty + k * c.y) / 600 * 100), name: c.name, pct: a.pct, fill, ink,
+        tf: below ? 'translate(-50%, -8px)' : 'translate(-50%, calc(-100% + 8px))', dir: below ? 'column-reverse' : 'column',
+        pick: goCity(c.name, c.region), enter: () => this.setState({ hover: { kind: 'city', id: c.name } }) }; }) : [];
+
+    // خريطة المدينة بطابع خرائط الشوارع
+    const BARCOL = { 'بُعد المركز': '#E8A33D', 'تعارض المواعيد مع الدوام': '#6C8CBF', 'المواصلات': '#8E7CC3', 'رعاية الأطفال': '#E07B91', 'الخوف من الفحص': '#5FB3A4', 'قلة الوعي': '#C9A227', 'تفضيل طبيبة': '#D46A4C', 'صعوبة الحجز': '#7FA0B8', 'حاجز اللغة': '#3F6FA6' };
+    const hexPos = {};
+    let cells = [], cityT = 'translate(0px, 0px) scale(1)', parks = [], roads = { ring: '', av1: '', av2: '' }, water = { show: false, d: '' }, selCell = '', cityLabels = [], healthPins = [], pois = [], scaleText = '1 كم';
+    if (cityObj) {
+      const coast = { 'جدة': 'w', 'ينبع': 'w', 'جازان': 'w', 'الدمام': 'e', 'الخبر': 'e' }[cityObj.name];
+      const X0 = coast === 'w' ? 150 : 40, X1 = coast === 'e' ? 650 : 760, Y0 = 24, Y1 = 536;
+      const h2 = (str) => { let h = 7; for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) % 100003; return (h % 1000) / 1000; };
+      const nR = Math.max(...cityObj.hoods.map((h) => h.row)) + 1, nC = Math.max(...cityObj.hoods.map((h) => h.col)) + 1;
+      const seeds = cityObj.hoods.map((h) => [X0 + (h.col + 0.5 + (h.row % 2) * 0.25) / (nC + 0.25) * (X1 - X0) + (h2(h.name) - 0.5) * 40, Y0 + (h.row + 0.5) / nR * (Y1 - Y0) + (h2(h.name + 'y') - 0.5) * 34]);
+      const clip = (poly, a, b) => { const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, nx = b[0] - a[0], ny = b[1] - a[1]; const side = (p) => (p[0] - mx) * nx + (p[1] - my) * ny; const out = [];
+        for (let i = 0; i < poly.length; i++) { const P = poly[i], Q = poly[(i + 1) % poly.length]; const sp = side(P), sq = side(Q); if (sp <= 0) out.push(P); if ((sp <= 0) !== (sq <= 0)) { const tt = sp / (sp - sq); out.push([P[0] + (Q[0] - P[0]) * tt, P[1] + (Q[1] - P[1]) * tt]); } } return out; };
+      const polys = seeds.map((a, i) => { let poly = [[X0, Y0], [X1, Y0], [X1, Y1], [X0, Y1]]; seeds.forEach((b, j) => { if (j !== i) poly = clip(poly, a, b); }); return poly; });
+      const cent = (poly) => { let x = 0, y = 0; poly.forEach((p) => { x += p[0]; y += p[1]; }); return [x / poly.length, y / poly.length]; };
+      const pstr = (poly) => 'M' + poly.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L') + 'Z';
+      const selIdx = cityObj.hoods.findIndex((h) => h.name === s.hood);
+      const z = s.zoom || 1; let fx = 400, fy = 280, kk = z;
+      if (selIdx >= 0) { const c0 = cent(polys[selIdx]); fx = c0[0]; fy = c0[1]; kk = 2.4 * z; }
+      const ctx = 400 - kk * fx, cty = 280 - kk * fy;
+      cityT = 'translate(' + ctx.toFixed(1) + 'px, ' + cty.toFixed(1) + 'px) scale(' + kk.toFixed(3) + ')';
+      scaleText = kk >= 2 ? '200 م' : kk >= 1.4 ? '500 م' : '1 كم';
+      const Pp = (x, y) => [(ctx + kk * x) / 800 * 100, (cty + kk * y) / 560 * 100];
+      cells = cityObj.hoods.map((h, i) => ({ d: pstr(polys[i]), fill: s.layer === 'barrier' ? (BARCOL[h.barrier] || '#999999') : COL(h.pct)[0],
+        op: s.layer === 'none' ? 0 : (selIdx >= 0 && selIdx !== i ? 0.22 : 0.6), pick: goHood(h.name), enter: () => this.setState({ hover: { kind: 'hood', id: h.name } }) }));
+      selCell = selIdx >= 0 ? pstr(polys[selIdx]) : '';
+      const cx0 = (X0 + X1) / 2, rx = (X1 - X0) / 2 - 60, ry = 205;
+      roads = { ring: 'M' + (cx0 - rx) + ',280 A' + rx + ',' + ry + ' 0 1 0 ' + (cx0 + rx) + ',280 A' + rx + ',' + ry + ' 0 1 0 ' + (cx0 - rx) + ',280',
+        av1: 'M' + (cx0 + 25) + ',-300 L' + (cx0 - 40) + ',900', av2: 'M-300,310 L1100,240' };
+      water = coast === 'w' ? { show: true, d: 'M-600,-600 L' + (X0 - 6) + ',-600 L' + (X0 - 6) + ',40 Q' + (X0 + 16) + ',150 ' + (X0 - 12) + ',280 T' + (X0 - 6) + ',540 L' + (X0 - 6) + ',1200 L-600,1200Z' }
+        : coast === 'e' ? { show: true, d: 'M1400,-600 L' + (X1 + 6) + ',-600 L' + (X1 + 6) + ',40 Q' + (X1 - 16) + ',150 ' + (X1 + 12) + ',280 T' + (X1 + 6) + ',540 L' + (X1 + 6) + ',1200 L1400,1200Z' } : { show: false, d: '' };
+      parks = [0, 1, 2].map((i) => ({ cx: (X0 + 50 + h2(cityObj.name + i) * (X1 - X0 - 100)).toFixed(0), cy: (Y0 + 50 + h2(cityObj.name + 'p' + i) * (Y1 - Y0 - 100)).toFixed(0), rx: 24 + i * 6, ry: 14 + i * 4 }));
+      cityLabels = cityObj.hoods.map((h, i) => { const c0 = cent(polys[i]); const p = Pp(c0[0], c0[1]); const [fill, ink] = COL(h.pct); hexPos[h.name] = p;
+        return { left: pc(p[0]), top: pc(p[1]), name: h.name, pct: h.pct, fill, ink, fs: selIdx === i ? '16px' : '12.5px', op: selIdx >= 0 && selIdx !== i ? 0.5 : 1 }; });
+      healthPins = selIdx >= 0 ? [] : cityObj.hoods.map((h, i) => { const c0 = cent(polys[i]); const p = Pp(c0[0] + 22, c0[1] + 24); return { left: pc(p[0]), top: pc(p[1]) }; });
+      if (selIdx >= 0) {
+        const h = cityObj.hoods[selIdx]; const poly = polys[selIdx]; const c0 = cent(poly);
+        const xs = poly.map((p) => p[0]), ys = poly.map((p) => p[1]); const w = Math.max(...xs) - Math.min(...xs), hh = Math.max(...ys) - Math.min(...ys);
+        const inside = (pt) => { let c = false; for (let a = 0, b = poly.length - 1; a < poly.length; b = a++) { const xi = poly[a][0], yi = poly[a][1], xj = poly[b][0], yj = poly[b][1]; if (((yi > pt[1]) !== (yj > pt[1])) && (pt[0] < (xj - xi) * (pt[1] - yi) / (yj - yi) + xi)) c = !c; } return c; };
+        const needMobile = h.barrier === 'بُعد المركز' || h.barrier === 'المواصلات' || h.barrier === 'حاجز اللغة' || !!s.approved[h.city + '|' + h.name + '|b'];
+        const items = [['مركز صحي ' + h.name, '#2F7F80', 'M12 5v14M5 12h14', 0.2, 0.22], ['جامع الحي', '#0E7466', 'M12 3l7 6v12H5V9z', -0.24, -0.16], ['مدرسة', '#3B6FB6', 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5', 0.24, -0.24], ['صيدلية · قياس ضغط مجاني', '#C2412D', 'M12 5v14M5 12h14', -0.22, 0.26], ['حديقة الحي', '#3E8E3E', 'M12 22V12M12 12c-4 0-7-3-7-7 4 0 7 3 7 7z', 0.02, -0.34]];
+        if (needMobile) items.push(['موقع مقترح لعيادة متنقلة', '#B26A12', 'M3 7h11v9H3zM14 10h4l3 3v3h-7', -0.04, 0.08]);
+        pois = items.map(([label, color, d, ox, oy]) => { let pt = [c0[0] + ox * w, c0[1] + oy * hh]; if (!inside(pt)) pt = [c0[0] + ox * w * 0.45, c0[1] + oy * hh * 0.45]; const p = Pp(pt[0], pt[1]); return { label, color, d, left: pc(p[0]), top: pc(p[1]) }; });
+      }
+    }
+    const layerChips = [['pct', 'نسب الإكمال'], ['barrier', 'العائق الأبرز'], ['none', 'الخريطة فقط']].map(([key, label]) => ({ label, selected: (s.layer || 'pct') === key, pick: () => this.setState({ layer: key }),
+      bg: (s.layer || 'pct') === key ? '#2F7F80' : '#FFFFFF', ink: (s.layer || 'pct') === key ? '#FFFFFF' : '#3C4043' }));
+    const zoomIn = () => this.setState({ zoom: Math.min(2.5, (s.zoom || 1) + 0.35) });
+    const zoomOut = () => this.setState({ zoom: Math.max(0.8, (s.zoom || 1) - 0.35) });
+    const barrierLegend = cityObj && s.layer === 'barrier';
+    const legend = barrierLegend ? Object.entries(BARCOL).filter(([n]) => cityObj.hoods.some((h) => h.barrier === n)).map(([t, c]) => ({ c, t }))
+      : [['#F2C4B8', '<45%'], ['#F1E7A6', '45–54'], ['#CDEDE5', '55–64'], ['#96D7C6', '65–74'], ['#2F7F80', '75%+']].map(([c, t]) => ({ c, t }));
+
+    // side list
+    let scopeList = [], listTitle = '';
+    if (level === 'kingdom') { listTitle = 'المناطق حسب الأولوية'; scopeList = regionIds.map((id) => ({ id, a: regionAgg[id] })).sort((x, y) => x.a.pct - y.a.pct).slice(0, 7)
+      .map(({ id, a }) => ({ name: 'منطقة ' + RN[id], sub: 'العائق الأبرز: ' + Object.entries(a.bars).sort((x, y) => y[1] - x[1])[0][0], pct: a.pct, fill: COL(a.pct)[0], pick: goRegion(id) })); }
+    if (level === 'region') { listTitle = 'مدن منطقة ' + RN[s.region]; scopeList = cities.filter((c) => c.region === s.region).map((c) => ({ c, a: agg(c.hoods) })).sort((x, y) => x.a.pct - y.a.pct)
+      .map(({ c, a }) => ({ name: c.name, sub: c.hoods.length + ' أحياء · ' + fmt(a.late) + ' متأخر', pct: a.pct, fill: COL(a.pct)[0], pick: goCity(c.name, c.region) })); }
+    if (level === 'city') { listTitle = 'أحياء ' + cityObj.name; scopeList = cityObj.hoods.slice().sort((x, y) => x.pct - y.pct).slice(0, 8)
+      .map((h) => ({ name: 'حي ' + h.name, sub: h.barrier + ' · ' + h.gap, pct: h.pct, fill: COL(h.pct)[0], pick: goHood(h.name) })); }
+
+    const BACT = {
+      'بُعد المركز': ['عيادة متنقلة أسبوعية في الحي', 'M3 7h11v9H3zM14 10h4l3 3v3h-7M7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4M17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4'],
+      'تعارض المواعيد مع الدوام': ['تمديد الفحص حتى 10 مساءً وفتح يوم السبت', 'M12 7v5l3 2M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18'],
+      'المواصلات': ['مشاوير مجانية لكبار السن عبر تطبيقات التوصيل', 'M5 17h14M6 17l1.5-6h9L18 17M8 21a1 1 0 1 0 0-2M16 21a1 1 0 1 0 0-2'],
+      'رعاية الأطفال': ['مواعيد عائلية مع تطعيمات الأطفال وركن أطفال', 'M9 7a3 3 0 1 0 0-.01M17 9a2 2 0 1 0 0-.01M3 21v-2a5 5 0 0 1 10 0v2M14 21v-1a3 3 0 0 1 6 0v1'],
+      'الخوف من الفحص': ['مقاطع قصيرة تشرح الفحص خطوة بخطوة وجلسات تعريفية', 'M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z'],
+      'قلة الوعي': ['حملة توعية مع إمام المسجد والعمدة', 'M3 11l18-8v18L3 13zM7 12v6'],
+      'تفضيل طبيبة': ['زيادة مواعيد الطبيبات وعيادة نسائية متنقلة', 'M12 8a4 4 0 1 0 0-.01M5 21v-1a7 7 0 0 1 14 0v1'],
+      'صعوبة الحجز': ['تفعيل «الموعد الجاهز» بضغطة واحدة', 'M20 6L9 17l-5-5'],
+      'حاجز اللغة': ['تواصل رفيدة بالأوردو والبنغالية وعيادة قرب سكن العمال', 'M4 5h7M7.5 5v2c0 4-2 7-5 8M5 9c1 3 3 5 6 6M13 19l4-10 4 10M14.5 16h5']
+    };
+    const GACT = {
+      'نقص فيتامين د': 'حملة «شمس الصبح» وتحليل فيتامين د مع زيارات الشتاء',
+      'سكري غير مشخّص': 'فحص سكر سريع بعد صلاة الجمعة عند مسجد الحي',
+      'ارتفاع ضغط غير مشخّص': 'أجهزة قياس ضغط في الصيدليات والأسواق تُربط نتائجها بصحتي',
+      'فقر الدم (الأنيميا)': 'تحليل دم للنساء والمراهقات وتوعية غذائية بالحديد',
+      'السمنة': 'برنامج مشي جماعي في ممشى الحي مع استشارة تغذية',
+      'ارتفاع الكوليسترول': 'تحليل دهون مع فحص السكر في زيارة واحدة',
+      'فقر الدم المنجلي': 'فحص وراثي واستشارات ما قبل الزواج للعائلات',
+      'الثلاسيميا': 'فحص وراثي واستشارات ما قبل الزواج للعائلات'
+    };
+    const approve = (key) => () => this.setState({ approved: { ...s.approved, [key]: true } });
+    let hoodRecs = [];
+    if (hoodObj) {
+      const h = hoodObj; const k1 = h.city + '|' + h.name + '|b', k2 = h.city + '|' + h.name + '|g';
+      const late = h.late; const gain1 = Math.round(6 + (h.elig % 7)), gain2 = Math.round(3 + (h.elig % 5));
+      hoodRecs = [
+        { title: (BACT[h.barrier] || ['تدخل'])[0], why: 'لأن «' + h.barrier + '» هو أكثر سبب ذكره ' + fmt(late) + ' متأخرًا في الحي.', impact: 'متوقع: +' + gain1 + ' نقطة إكمال', d: (BACT[h.barrier] || ['', 'M12 5v14M5 12h14'])[1], bg: '#FBF5D6', color: '#6B5A08', done: !!s.approved[k1], pending: !s.approved[k1], approve: approve(k1) },
+        { title: GACT[h.gap] || 'توعية صحية', why: 'لأن «' + h.gap + '» هو النقص الأكثر شيوعًا هنا (' + h.gapPct + '% ممن فحصوا).', impact: 'متوقع: +' + gain2 + ' نقاط ووقاية أبكر', d: 'M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z', bg: '#FDE7E2', color: '#8A2A1C', done: !!s.approved[k2], pending: !s.approved[k2], approve: approve(k2) },
+        { title: 'تحدي «حيّ صحّي» للحي', why: 'هدف جماعي 80% ومكافأة مجتمعية عند تحقيقه، مع تذكير رفيدة للعائلات.', impact: 'متوقع: +3 نقاط', d: 'M12 2l2.9 6.9L22 9.6l-5.5 4.8L18.2 22 12 18.3 5.8 22l1.7-7.6L2 9.6l7.1-.7z', bg: '#E6F4F1', color: '#2F7F80', done: !!s.approved[h.city + h.name + 'c'], pending: !s.approved[h.city + h.name + 'c'], approve: approve(h.city + h.name + 'c') }
+      ];
+    }
+
+    const RB = {
+      'ryiadh': 'العاصمة ووسط المملكة. أكبر كثافة سكانية، ومزيج من الموظفين والعائلات والعمالة الوافدة.',
+      'mecca': 'تضم مكة المكرمة وجدة والطائف. كثافة عالية، ومواسم الحج والعمرة تضغط على المراكز.',
+      'medina': 'تضم المدينة المنورة وينبع الصناعية، وفيها زوار طوال العام.',
+      'eastern-province': 'أكبر المناطق مساحة ومركز صناعة النفط. كثير من السكان يعملون بنظام الورديات.',
+      'al-qassim': 'قلب نجد الزراعي، ومدنها الرئيسية بريدة وعنيزة. عائلات كبيرة.',
+      'hail': 'شمال نجد، مدن وقرى متباعدة.',
+      'tabuk': 'شمال غرب المملكة على البحر الأحمر، وفيها قرى متفرقة ومشاريع كبرى.',
+      'northern-borders': 'منطقة حدودية، والمسافات بين المدن طويلة.',
+      'al-jawf': 'شمال المملكة، منطقة زراعية ومدنها متباعدة.',
+      'asir': 'جبال السروات، أبها وخميس مشيط، وطرق جبلية تصعّب الوصول.',
+      'al-bahah': 'منطقة جبلية صغيرة، قرى متفرقة على السراة.',
+      'najran': 'جنوب المملكة على أطراف الربع الخالي.',
+      'jizan': 'ساحلية في الجنوب الغربي، وفيها جزر فرسان.'
+    };
+    const CB = { 'الرياض': 'العاصمة، أحياء جديدة شمالًا وأحياء قديمة في الوسط والجنوب.', 'جدة': 'بوابة الحرمين على البحر الأحمر، وفيها أحياء تاريخية مكتظة.', 'مكة المكرمة': 'أطهر البقاع، وفيها كثافة زوار في المواسم.', 'المدينة المنورة': 'مدينة الرسول ﷺ، وفيها زوار طوال العام.', 'الدمام': 'مركز المنطقة الشرقية، والعمل بالورديات منتشر.', 'الخبر': 'مدينة ساحلية فيها عمالة وافدة كثيرة.', 'الأحساء': 'أكبر واحة نخيل في العالم، وفقر الدم المنجلي أكثر انتشارًا فيها.' };
+    const topOf = (o) => { const e = Object.entries(o).sort((x, y) => y[1] - x[1]); return e.length ? e[0][0] : ''; };
+    const place = (x, y) => { const lx = Math.min(80, Math.max(20, x)); return { left: lx.toFixed(1) + '%', top: y.toFixed(1) + '%', tf: y < 42 ? 'translate(-50%, 20px)' : 'translate(-50%, calc(-100% - 16px))' }; };
+    let tip = { show: false, left: '0%', top: '0%', tf: 'none', name: '', pct: 0, brief: '', elig: '', before: 0, early: '', late: '', barrier: '', gap: '', hint: '' };
+    const hv = s.hover;
+    if (hv && hv.kind === 'region' && geo && !cityObj) {
+      const a = regionAgg[hv.id]; const p = LBL[hv.id] || [365, 300];
+      tip = { show: true, ...place((tx + k * p[0]) / 730 * 100, (ty + k * p[1]) / 600 * 100), name: 'منطقة ' + RN[hv.id], pct: a.pct, brief: RB[hv.id],
+        elig: short(a.elig), before: a.before, early: fmt(a.early * rangeK), late: short(a.late), barrier: topOf(a.bars), gap: topOf(a.gaps), hint: s.region === hv.id ? 'اضغط على مدينة لعرض أحيائها' : 'اضغط للتقريب على المنطقة' };
+    } else if (hv && hv.kind === 'city' && !cityObj) {
+      const c = cities.find((x) => x.name === hv.id); if (c) { const a = agg(c.hoods);
+        tip = { show: true, ...place((tx + k * c.x) / 730 * 100, (ty + k * c.y) / 600 * 100), name: c.name, pct: a.pct, brief: (CB[c.name] || 'مدينة في منطقة ' + RN[c.region] + '.') + ' ' + c.hoods.length + ' أحياء في عون.',
+          elig: short(a.elig), before: a.before, early: fmt(a.early * rangeK), late: short(a.late), barrier: topOf(a.bars), gap: topOf(a.gaps), hint: 'اضغط لعرض الأحياء' }; }
+    } else if (hv && hv.kind === 'hood' && cityObj && hexPos[hv.id]) {
+      const h = cityObj.hoods.find((x) => x.name === hv.id); const [px, py] = hexPos[hv.id];
+      tip = { show: true, ...place(px, py), name: 'حي ' + h.name, pct: h.pct, brief: 'في ' + h.city + '. ' + h.gap + ' لدى ' + h.gapPct + '% ممن فحصوا. نسبة الاستفادة من رفيدة ' + h.engaged + '%.',
+        elig: fmt(h.elig), before: h.before, early: fmt(h.early * rangeK), late: fmt(h.late), barrier: h.barrier, gap: h.gap, hint: 'اقتراح رفيدة: ' + (BACT[h.barrier] || ['تدخل'])[0] };
+    }
+    const nCities = cities.length, nHoods = hoods.length;
+    const scopeBrief = level === 'kingdom' ? '13 منطقة · ' + nCities + ' مدينة · ' + nHoods + ' حيًّا في نطاق التجربة'
+      : level === 'region' ? RB[s.region]
+      : level === 'city' ? (CB[cityObj.name] || 'مدينة في منطقة ' + RN[cityObj.region] + '.') + ' العائق الأبرز: ' + topOf(A.bars) + '.'
+      : hoodObj.gap + ' هو النقص الأكثر شيوعًا، والعائق الأبرز: ' + hoodObj.barrier + '.';
+
+    const scopeName = level === 'kingdom' ? 'المملكة العربية السعودية' : level === 'region' ? 'منطقة ' + RN[s.region] : level === 'city' ? cityObj.name : 'حي ' + hoodObj.name + ' · ' + cityObj.name;
+    const scope = { name: scopeName, brief: scopeBrief, kind: { kingdom: 'النطاق: كل المناطق', region: 'النطاق: منطقة', city: 'النطاق: مدينة', hood: 'النطاق: حي' }[level],
+      pct: A.pct, before: A.before, delta: A.pct - A.before, beforeW: A.before + '%', pctW: A.pct + '%',
+      addedT: short(A.added * rangeK), earlyT: fmt(A.early * rangeK), lateT: short(A.late), lateShort: short(A.late) };
+    const hood = hoodObj ? { barrier: hoodObj.barrier, gap: hoodObj.gap, gapPct: hoodObj.gapPct } : { barrier: '', gap: '', gapPct: 0 };
+
+    const kpis = [
+      { label: 'نسبة إكمال الفحوصات', value: A.pct + '%', sub: '↑ +' + (A.pct - A.before) + ' نقطة منذ إطلاق عون', subColor: '#2F7F80', d: 'M3 17l6-6 4 4 8-8M15 7h6v6' },
+      { label: 'فحوصات إضافية بفضل عون', value: short(A.added * rangeK), sub: 'أشخاص فحصوا بعد تواصل رفيدة', subColor: '#2F7F80', d: 'M12 5v14M5 12h14' },
+      { label: 'حالات اكتشاف مبكر', value: fmt(A.early * rangeK), sub: 'أُحيلت للعلاج في مرحلة مبكرة', subColor: '#8A2A1C', d: 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16M21 21l-4.3-4.3' },
+      { label: 'نسبة الاستفادة', value: A.engaged + '%', sub: 'ممن تواصلت معهم رفيدة حجزوا', subColor: '#4C6466', d: 'M20 6L9 17l-5-5' },
+      { label: 'المستحقون في النطاق', value: short(A.elig), sub: short(A.late) + ' ما زالوا متأخرين', subColor: '#6B5A08', d: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8' },
+      { label: 'تدخلات نشطة', value: String(Math.max(1, Math.round(scopeHoods.length * 0.35)) + Object.keys(s.approved).length), sub: Object.keys(s.approved).length + ' اعتمدتها اليوم', subColor: '#4C6466', d: 'M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z' }
+    ];
+
+    // donut
+    const PAL = ['#2F7F80', '#5AA7A7', '#8FD3B4', '#D9822B', '#6C8CBF', '#B9CBC8'];
+    const bEntries = Object.entries(A.bars).sort((x, y) => y[1] - x[1]);
+    const top = bEntries.slice(0, 5); const rest = bEntries.slice(5).reduce((a, b) => a + b[1], 0);
+    if (rest > 0) top.push(['أخرى', rest]);
+    const tot = top.reduce((a, b) => a + b[1], 0) || 1; const C = 2 * Math.PI * 60; let acc = 0;
+    const donut = top.map(([name, v], i) => { const len = v / tot * C; const o = { name, pct: Math.round(v / tot * 100), c: PAL[i], dash: len.toFixed(1) + ' ' + (C - len).toFixed(1), off: (-acc).toFixed(1) }; acc += len; return o; });
+
+    // chart
+    const MO = ['ديسمبر', 'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر'];
+    const vals = MO.map((_, i) => i < 5 ? A.before + ((i * 7) % 3) - 1 : Math.round(A.before + (A.pct - A.before) * Math.pow((i - 4) / 7, 0.8)));
+    const X = (i) => 50 + i * (490 / 11), Yv = (v) => 190 - (v - 20) / 70 * 170;
+    const line = vals.map((v, i) => X(i).toFixed(1) + ',' + Yv(v).toFixed(1)).join(' ');
+    const chart = { line, area: 'M' + X(0).toFixed(1) + ',190 L' + vals.map((v, i) => X(i).toFixed(1) + ',' + Yv(v).toFixed(1)).join(' L') + ' L' + X(11).toFixed(1) + ',190 Z',
+      lastX: X(11).toFixed(1), lastY: Yv(vals[11]).toFixed(1), lastLY: (Yv(vals[11]) - 12).toFixed(1), lastV: vals[11],
+      firstX: X(0).toFixed(1), firstY: Yv(vals[0]).toFixed(1), firstLY: (Yv(vals[0]) - 12).toFixed(1), firstV: vals[0], launchX: X(4.5).toFixed(1), launchW: (X(11) - X(4.5) + 10).toFixed(1), launchTX: (X(4.5) + 8).toFixed(1),
+      grid: [30, 50, 70, 90].map((v) => ({ y: Yv(v).toFixed(1), ty: (Yv(v) + 4).toFixed(1), t: v + '%' })),
+      gridL: [30, 50, 70, 90].map((v) => ({ left: (34 / 560 * 100).toFixed(2) + '%', top: (Yv(v) / 230 * 100).toFixed(2) + '%', t: v + '%' })),
+      monthsL: MO.map((t, i) => ({ left: (X(i) / 560 * 100).toFixed(2) + '%', t: i % 2 === 0 ? t : '' })),
+      launchL: ((X(4.5) + 8) / 560 * 100).toFixed(2) + '%',
+      firstL: (X(0) / 560 * 100).toFixed(2) + '%', firstT: (Yv(vals[0]) / 230 * 100).toFixed(2) + '%',
+      lastL: (X(11) / 560 * 100 - 2).toFixed(2) + '%', lastT: (Yv(vals[11]) / 230 * 100).toFixed(2) + '%',
+      months: MO.map((t, i) => ({ x: X(i).toFixed(1), t: i % 2 === 0 ? t : '' })) };
+
+    // feed
+    const pickH = (i) => scopeHoods[(i * 7 + 3) % scopeHoods.length];
+    const T = [
+      [(h) => 'رفيدة حجزت ' + (6 + h.elig % 20) + ' مواعيد جاهزة في حي ' + h.name + '، ' + h.city, '#E6F4F1', '#2F7F80', 'M3 4h18v17H3zM16 2v4M8 2v4M3 10h18'],
+      [(h) => 'اكتشاف مبكر: حالة ' + (h.gap.indexOf('ضغط') >= 0 ? 'ارتفاع ضغط' : 'سكري') + ' جديدة أُحيلت للطبيب من حي ' + h.name, '#FDE7E2', '#8A2A1C', 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16M21 21l-4.3-4.3'],
+      [(h) => 'أم من حي ' + h.name + ' أكدت موعد فحص الثدي مع طبيبة', '#FCE7F0', '#8E2457', 'M20 6L9 17l-5-5'],
+      [(h) => 'رفيدة تكلمت باللهجة المحلية مع ' + (12 + h.elig % 30) + ' من كبار السن في ' + h.city, '#E6F4F1', '#2F7F80', 'M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0'],
+      [(h) => 'عيادة متنقلة وصلت حي ' + h.name + ' وبدأت استقبال المواعيد', '#FBF5D6', '#6B5A08', 'M3 7h11v9H3zM14 10h4l3 3v3h-7'],
+      [(h) => 'مرافق نقل أوصل مستفيدًا كبيرًا في السن لمركز ' + h.city, '#E6EEF7', '#3D5F94', 'M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8'],
+      [(h) => 'رفيدة تواصلت بالأوردو مع ' + (20 + h.elig % 40) + ' عاملًا قرب حي ' + h.name, '#E6F4F1', '#2F7F80', 'M4 5h7M7.5 5v2c0 4-2 7-5 8M13 19l4-10 4 10']
+    ];
+    const TIMES = ['الآن', 'قبل دقيقة', 'قبل 3 دقائق', 'قبل 6 دقائق', 'قبل 9 دقائق'];
+    const feed = [0, 1, 2, 3, 4].map((j) => { const n = s.tick - j; const t = T[((n % T.length) + T.length) % T.length]; const h = pickH(n + 20);
+      return { text: t[0](h), bg: t[1], color: t[2], d: t[3], time: TIMES[j], cls: j === 0 ? 'aoun-feed' : '' }; });
+
+    const active = [
+      { title: 'عيادة متنقلة', where: 'حي النسيم، الرياض · باقي 3 أيام', prog: '72%', status: '1,180 فحص حتى الآن', bg: '#E5F4F0', color: '#2F7F80', d: 'M3 7h11v9H3zM14 10h4l3 3v3h-7M7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4M17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4' },
+      { title: 'دعم المواصلات', where: 'كبار السن · السويدي والعليا', prog: '54%', status: '640 مشوارًا هذا الشهر', bg: '#FFF1DC', color: '#B26A12', d: 'M5 17h14M6 17l1.5-6h9L18 17M8 21a1 1 0 1 0 0-2M16 21a1 1 0 1 0 0-2' },
+      { title: 'مواعيد مرنة', where: 'مساءً ونهاية الأسبوع · الملقا', prog: '61%', status: '+11 نقطة في الحي', bg: '#F4E9F7', color: '#7A3E8F', d: 'M3 4h18v17H3zM16 2v4M8 2v4M3 10h18' },
+      { title: 'تواصل بلغات العمالة', where: 'البطحاء والسلي · أوردو وبنغالي', prog: '45%', status: '3,920 عاملًا تواصلنا معهم', bg: '#E6EEF7', color: '#3D5F94', d: 'M4 5h7M7.5 5v2c0 4-2 7-5 8M13 19l4-10 4 10M14.5 16h5' }
+    ];
+
+    // stats
+    const E = A.early * rangeK;
+    const eb = [['السكري', 0.38], ['ارتفاع الضغط', 0.27], ['الكوليسترول', 0.12], ['سرطان الثدي', 0.09], ['اعتلال الكلى', 0.08], ['سرطان القولون', 0.06]];
+    const earlyBy = eb.map(([name, p]) => ({ name, v: fmt(E * p), w: (p / 0.38 * 100) + '%' }));
+    const contacted = A.elig * 0.82 * rangeK;
+    const fl = [['تواصلت معهم رفيدة', contacted], ['أخبروها بالسبب', contacted * 0.74], ['قُدّم لهم موعد جاهز', contacted * 0.66], ['أكدوا الموعد', contacted * 0.66 * A.engaged / 100], ['حضروا وفحصوا', A.added * rangeK], ['اكتشاف مبكر', E]];
+    const funnel = fl.map(([name, v]) => ({ name, v: short(v), w: Math.max(2, v / contacted * 100) + '%' }));
+    const sg = [['18–39 سنة', A.engaged - 9], ['40–59 سنة', A.engaged + 3], ['60 سنة فأكثر', A.engaged + 8], ['النساء', A.engaged + 4], ['العمالة الوافدة', A.engaged - 14], ['ذوو الاحتياجات الخاصة', A.engaged + 1]];
+    const segments = sg.map(([name, v]) => ({ name, v: Math.min(97, v), w: Math.min(97, v) + '%' }));
+    const channels = [['محادثة صوتية', 44], ['رسائل نصية في التطبيق', 33], ['مكالمة آلية', 15], ['مرافق من العائلة', 6], ['لغة الإشارة', 1], ['عيادة متنقلة مباشرة', 1]].map(([name, v]) => ({ name, v }));
+    const gEntries = Object.entries(A.gaps).sort((x, y) => y[1] - x[1]); const gMax = gEntries.length ? gEntries[0][1] : 1;
+    const gapsList = gEntries.map(([name, v]) => ({ name, v, w: (v / gMax * 100) + '%' }));
+    const regionRank = regionIds.map((id) => ({ id, a: regionAgg[id] })).sort((x, y) => y.a.pct - x.a.pct).map(({ id, a }) => ({ name: RN[id], pct: a.pct, w: a.pct + '%', fill: COL(a.pct)[0] }));
+
+    const actionRows = scopeHoods.slice().sort((x, y) => x.pct - y.pct).slice(0, 12).map((h) => { const key = h.city + '|' + h.name + '|b'; const [fill, ink] = COL(h.pct);
+      return { name: h.name, city: h.city, pct: h.pct, fill, ink, barrier: h.barrier, gap: h.gap, act1: (BACT[h.barrier] || ['—'])[0], act2: GACT[h.gap] || '', done: !!s.approved[key], pending: !s.approved[key], approve: approve(key) }; });
+
+    const worst = scopeHoods.slice().sort((x, y) => x.pct - y.pct)[0];
+    const topBar = bEntries.length ? bEntries[0][0] : '';
+    const topGap = gEntries.length ? gEntries[0][0] : '';
+    const summary = [
+      'نسبة الإكمال في ' + scopeName + ' وصلت ' + A.pct + '%، بزيادة ' + (A.pct - A.before) + ' نقطة منذ إطلاق عون.',
+      short(A.added * rangeK) + ' شخص فحصوا بعد تواصل رفيدة، واكتُشفت ' + fmt(E) + ' حالة مبكرًا وأُحيلت للعلاج.',
+      'أكثر عائق يمنع الناس: «' + topBar + '». وأكثر نقص صحي منتشر: «' + topGap + '».',
+      'الأولوية هذا الأسبوع: حي ' + worst.name + ' في ' + worst.city + ' (' + worst.pct + '%). المقترح: ' + (BACT[worst.barrier] || ['تدخل'])[0] + '.'
+    ];
+    const reports = [
+      { title: 'التقرير الأسبوعي', desc: 'ملخص الإكمال والاكتشاف المبكر والتدخلات لكل منطقة.', when: 'يُرسل كل أحد 8 ص' },
+      { title: 'تقرير أثر التدخلات', desc: 'مقارنة الأحياء قبل التدخل وبعده مع أحياء مشابهة بدون تدخل.', when: 'شهري' },
+      { title: 'تقرير أكتوبر الوردي', desc: 'الوصول والحجز والاكتشاف المبكر لسرطان الثدي.', when: 'اكتمل · نوفمبر' },
+      { title: 'تقرير الشمول', desc: 'كبار السن، ذوو الاحتياجات الخاصة، اللغات واللهجات.', when: 'ربع سنوي' },
+      { title: 'تقرير النقص الصحي', desc: 'فيتامين د، الأنيميا، والأمراض الوراثية حسب الحي.', when: 'شهري' },
+      { title: 'تقرير الاستعداد لرمضان', desc: 'مرضى السكر المحتاجون فحصًا قبل الصيام، ومواعيد بعد التراويح.', when: 'قبل رمضان بشهر' }
+    ];
+
+    // ===== الإعدادات =====
+    const DEF = { minPct: 50, drop: 10, k: 50, maxRem: 3, alertDaily: true, alertSms: false, alertDrop: true, autoSuggest: true, humanApprove: true, quiet: true, prayer: true, family: true, pink: true, ramadan: true, diabetesDay: true, heart: false, anon: true, audit: true, export: false, retention: '12', tone: 'calm', channel: 'app' };
+    const cfg = s.cfg || DEF; const saved0 = s.savedCfg || DEF;
+    const setC = (k, v) => this.setState({ cfg: { ...cfg, [k]: v }, saved: false });
+    const sw = (k, label, desc, locked) => ({ label, desc, on: !!cfg[k], locked: !!locked, toggle: locked ? () => {} : () => setC(k, !cfg[k]),
+      track: cfg[k] ? (locked ? '#7FB8A3' : '#2F7F80') : '#8F9894', justify: cfg[k] ? 'flex-start' : 'flex-end', cursor: locked ? 'not-allowed' : 'pointer' });
+    const stp = (k, label, desc, unit, step, lo, hi) => ({ label, desc, value: cfg[k] + unit, decLabel: 'إنقاص ' + label, incLabel: 'زيادة ' + label,
+      dec: () => setC(k, Math.max(lo, cfg[k] - step)), inc: () => setC(k, Math.min(hi, cfg[k] + step)) });
+    const steppers = [stp('minPct', 'حد الإكمال المنخفض', 'نبّهني إذا نزلت نسبة إكمال الفحص في حي عن هذا الحد', '%', 5, 20, 90),
+      stp('drop', 'تراجع مفاجئ', 'نبّهني إذا انخفض الإقبال خلال شهر بهذه النسبة أو أكثر', '%', 5, 5, 50)];
+    const alertToggles = [sw('alertDaily', 'ملخص يومي بالبريد', 'أهم الأحياء المحتاجة وتقدّم التدخلات'), sw('alertDrop', 'تنبيه فوري للتراجع', 'إشعار داخل المنصة عند أي تراجع مفاجئ'), sw('alertSms', 'رسالة نصية للحالات العاجلة', 'لمدير المنطقة فقط')];
+    const agentToggles = [sw('autoSuggest', 'اقتراح التدخلات تلقائيًا', 'رفيدة تحلل أسباب العزوف وتقترح حلولًا لكل حي'), sw('humanApprove', 'اعتماد بشري قبل التنفيذ', 'لا يُنفّذ أي تدخل بدون موافقة مسؤول', true),
+      sw('quiet', 'ساعات هدوء', 'لا تذكيرات قبل 8 صباحًا ولا بعد 10 مساءً'), sw('prayer', 'احترام أوقات الصلاة', 'تأجيل التذكير وقت الأذان والصلاة'), sw('family', 'إشراك المرافق العائلي', 'بموافقة المستفيد فقط')];
+    const opt = (k, list) => list.map(([v, label]) => ({ label, on: cfg[k] === v, pick: () => setC(k, v), bg: cfg[k] === v ? '#2F7F80' : '#FFFFFF', ink: cfg[k] === v ? '#FFFFFF' : '#2F7F80', border: cfg[k] === v ? '#2F7F80' : '#CFE2DF' }));
+    const chipRows = [{ label: 'نبرة رفيدة', desc: 'أسلوب الرسائل للمستفيدين', opts: opt('tone', [['calm', 'مطمئنة'], ['brief', 'مختصرة'], ['warm', 'ودّية']]) },
+      { label: 'القناة الافتراضية', desc: 'لو ما اختار المستفيد قناة', opts: opt('channel', [['app', 'التطبيق'], ['sms', 'رسالة نصية'], ['voice', 'اتصال صوتي']]) }];
+    steppers.push(stp('maxRem', 'حد التذكيرات', 'أقصى عدد تذكيرات للشخص في الشهر، عشان ما نزعجه', '', 1, 1, 8));
+    const seasonToggles = [sw('pink', 'أكتوبر الوردي', 'توعية بالكشف المبكر عن سرطان الثدي'), sw('ramadan', 'رمضان بعد التراويح', 'مواعيد ليلية وتذكيرات بعد صلاة التراويح'),
+      sw('diabetesDay', 'اليوم العالمي للسكري (14 نوفمبر)', 'فحص سكر مجاني في الأحياء الأعلى خطورة'), sw('heart', 'شهر صحة القلب', 'حملة الضغط والكوليسترول')];
+    const privacyToggles = [sw('anon', 'تجهيل البيانات', 'لا تظهر أي هوية في اللوحة، فقط أرقام مجمّعة', true), sw('audit', 'سجل التدقيق', 'تسجيل كل اطلاع أو اعتماد مع اسم المسؤول'), sw('export', 'السماح بتصدير البيانات الخام', 'معطّل افتراضيًا لحماية الخصوصية')];
+    steppers.push(stp('k', 'أقل حجم مجموعة يُعرض', 'لا تُعرض أي مجموعة أقل من هذا العدد', ' شخص', 10, 20, 200));
+    chipRows.push({ label: 'مدة الاحتفاظ بالبيانات', desc: 'بعدها تُحذف تفاصيل المحادثات تلقائيًا', opts: opt('retention', [['6', '6 أشهر'], ['12', 'سنة'], ['24', 'سنتان']]) });
+    const team = [['د. سارة العتيبي', 'مديرة المنصة', 'كل المناطق', 'نشط'], ['م. فهد القحطاني', 'محلل بيانات', 'منطقة الرياض', 'نشط'], ['أ. نوف الشهري', 'مشرفة مراكز', 'منطقة مكة المكرمة', 'نشط'], ['أ. ماجد الدوسري', 'منسق تدخلات', 'المنطقة الشرقية', 'بانتظار التفعيل']]
+      .map(([name, role, scope, status]) => ({ name, role, scope, status, ini: name.replace(/^(د|م|أ)\. /, '').charAt(0), bg: status === 'نشط' ? '#E6F4F1' : '#FBF5D6', ink: status === 'نشط' ? '#2F7F80' : '#6B5A08' }));
+    const integrations = [['صحتي', 'التطبيق الذي تعمل داخله رفيدة', 'متصل'], ['نفاذ', 'توثيق حسابات المستفيدين', 'متصل'], ['موعد', 'حجز المواعيد في المراكز', 'متصل'], ['بوابة الرسائل', 'التذكيرات النصية', 'قيد الإعداد']]
+      .map(([name, desc, status]) => ({ name, desc, status, bg: status === 'متصل' ? '#E6F4F1' : '#FBF5D6', ink: status === 'متصل' ? '#2F7F80' : '#6B5A08' }));
+    const clean = JSON.stringify(cfg) === JSON.stringify(saved0);
+    const settingsVals = { steppers, alertToggles, agentToggles, chipRows, seasonToggles, privacyToggles, team, integrations, saved: s.saved, clean,
+      saveBg: clean ? '#9DB5AC' : '#2F7F80', saveCursor: clean ? 'not-allowed' : 'pointer', notSettings: s.tab !== 'settings',
+      saveSettings: () => this.setState({ savedCfg: cfg, saved: true }), resetSettings: () => this.setState({ cfg: DEF, saved: false }) };
+
+    const tabDefs = [['home', 'الرئيسية', 'M3 11l9-7 9 7M5 10v10h14V10'], ['stats', 'الإحصائيات', 'M4 20V10M10 20V4M16 20v-7M22 20H2'], ['actions', 'التدخلات', 'M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z'], ['agents', 'أداء الوكلاء', 'M12 8a4 4 0 1 0 0-.01M4 21c0-4 4-7 8-7s8 3 8 7M19 4l1.5 1.5L23 3'], ['settings', 'الإعدادات', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.8 1.2V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3.1 14H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 3.1V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 20.9 10H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z'], ['reports', 'التقارير', 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5']];
+    const tabs = tabDefs.filter((x) => x[0] !== 'settings').concat(tabDefs.filter((x) => x[0] === 'settings')).map(([key, label, d]) => ({ label, d, pick: () => this.setState({ tab: key }), bg: s.tab === key ? 'rgba(255,255,255,.18)' : 'transparent', weight: s.tab === key ? 700 : 500, current: s.tab === key ? 'page' : 'false' }));
+    const ranges = [['month', 'شهر'], ['quarter', 'ربع'], ['year', 'سنة']].map(([key, label]) => ({ label, selected: s.range === key, pick: () => this.setState({ range: key }), bg: s.range === key ? '#2F7F80' : 'transparent', color: s.range === key ? '#FFFFFF' : '#2F7F80' }));
+
+    return {
+      tabs, ranges, crumbs, kpis, scope, hood, hoodRecs, scopeList, listTitle, donut, chart, feed, active,
+      earlyBy, funnel, segments, channels, gapsList, regionRank, actionRows, summary, reports,
+      is: { home: s.tab === 'home', stats: s.tab === 'stats', actions: s.tab === 'actions', reports: s.tab === 'reports', settings: s.tab === 'settings' },
+      ...settingsVals,
+      mapT, regionShapes, regionLabels, tip, leave,
+      showKingdomMap: !cityObj && !!geo, showCityMap: !!cityObj, geoLoading: !geo && !cityObj,
+      isHood: level === 'hood', showList: level !== 'hood', canBack: level !== 'kingdom', back,
+      mapTitle: level === 'kingdom' ? 'خريطة المملكة' : level === 'region' ? 'منطقة ' + RN[s.region] : 'أحياء ' + cityObj.name,
+      mapHint: level === 'kingdom' ? 'اضغط على منطقة للتقريب' : level === 'region' ? 'اضغط على مدينة لعرض أحيائها' : 'اضغط على حي لعرض احتياجاته واقتراحات رفيدة',
+      legend, legendLo: barrierLegend ? 'العائق:' : 'أقل', legendHi: barrierLegend ? '' : 'أعلى إكمالًا',
+      cells, cityT, parks, roads, water, selCell, cityLabels, healthPins, pois, scaleText, layerChips, zoomIn, zoomOut, cityPins, cityName: cityObj ? cityObj.name : '',
+      liveCount: fmt(1240 + (s.tick * 37) % 400)
+    };
+  }
+}
+</script>
+</body>
+</html>
